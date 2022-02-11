@@ -1,10 +1,10 @@
-class hashMap():
+class HashMap():
     def __init__(self, size):
         self.size = size
         self.hash_table = self.create_buckets()
 
     def create_buckets(self):
-        return [[] for _ in range(self.size)]
+        return [[] for i in range(self.size)]
 
     def __getHashKey(self, key):
         hash_key = 0
@@ -13,7 +13,7 @@ class hashMap():
 
         return hash_key % self.size
 
-    def addKeyValuePair(self, key, value):
+    def insert(self, key, value):
 
         # Create the hash_key from from passed key
         hash_key = self.__getHashKey(key)
@@ -35,7 +35,9 @@ class hashMap():
         else:
             self.hash_table[hash_key].append([key, value])
 
-    def getValue(self, key):
+    # does not work
+
+    def search(self, key):
         hash_key = self.__getHashKey(key)
         if not self.hash_table[hash_key]:
             return None
@@ -46,12 +48,21 @@ class hashMap():
 
             return None
 
-    def deleteKeyValuePair(self, key):
-        hash_key = self.__getHashKey(key)
+    def searchByIndex(self, index):
+        if self.hash_table[index]:
+            for pair in self.hash_table[index]:
+                return pair[1]
+        else:
+            pass
 
+    def getAllItems(self):
+        for kvp in self.hash_table:
+            return kvp[1]
+
+    def remove(self, key):
+        hash_key = self.__getHashKey(key)
         if not self.hash_table[hash_key]:
             return False
-
         else:
             for i in range(len(self.hash_table[hash_key])):
                 if self.hash_table[hash_key][i][0] == key:
