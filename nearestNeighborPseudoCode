@@ -1,0 +1,6 @@
+1. Create a custom hashmap to store packages into
+    * remember: The hashmap is just there to make it easier to find stuff as the key will be used to calculate the index of the list
+    ** Use this structure to represent the contents of each truck, ie. Each truck will be a hashmap
+    *** at the moment, you are only implementing one hashmap to store all its contents.
+2. Create a list of all the locations - (Vertex list)
+3. Create an adjacency list to store all the distances of a graph
