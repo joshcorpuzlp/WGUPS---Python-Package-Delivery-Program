@@ -1,7 +1,6 @@
-from turtle import distance
 from HashMap import HashMap
 from Graph import Graph
-from package import Package
+from Package import Package
 import csv
 
 # create a hashMap of packages
@@ -29,29 +28,29 @@ def loadPackageData(fileName):
             current_package.delivery_deadline = package_data[i][5]
             current_package.mass_kg = package_data[i][6]
             current_package.notes = package_data[i][7]
-            current_package.status = ""
+            current_package.status = "AT_HUB"
 
             # add the package object in the list
-            package_list.insertById(
-                current_package.id, current_package)
+            package_list.insert(
+                current_package.address, current_package)
 
 
 # call the loadPackageData to store the csv data into the declared hashmap
 loadPackageData("wgups_package_file.csv")
 
 # tests to see if hashmap works
-# package_1 = package_list.searchById("10")
-# package_2 = package_list.searchById("11")
-# package_3 = package_list.searchById("20")
-# print(package_1)
-# print(package_2)
-# print(package_3)
-# print(package_1.address)
-# print(package_3.address)
-# print(package_list.hash_table)
-# package_list.printAllItems()
-# for i in range(package_list.size):
-#     print(package_list.hash_table[i])
+package_1 = package_list.search('4300 S 1300 E')
+package_2 = package_list.search("11")
+package_3 = package_list.search("20")
+print(package_1)
+print(package_2)
+print(package_3)
+print(package_1.address)
+print(package_3.address)
+print(package_list.hash_table)
+package_list.printAllItems()
+for i in range(package_list.size):
+    print(package_list.hash_table[i])
 
 
 # TODO: Using the Graph class:
@@ -69,11 +68,6 @@ def loadDistanceData(fileName):
         for row in reader:
             rows.append(row)
 
-    # for row in rows:
-    #     print(row, "\n")
-
-    # print(rows)
-
     # load the addresses to the vertex list
     for row in rows:
         distanceGraph.addVertex(row[0])
@@ -87,6 +81,4 @@ def loadDistanceData(fileName):
 
 fileName = "wgups_distance_table.csv"
 loadDistanceData(fileName)
-# distanceGraph.getGraph()
-#distanceGraph.getEdgeWeights('1330 2100 S\n(84106)')
 distanceGraph.printEdgeWeights()
