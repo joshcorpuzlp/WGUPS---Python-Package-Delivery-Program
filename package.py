@@ -5,7 +5,7 @@ class Package():
         self.city = ""
         self.state = ""
         self.zip = ""
-        self.delivery_deadline = None
+        self.delivery_deadline = ""
         self.mass_kg = 0
         self.status = ""
         self.notes = ""

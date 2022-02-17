@@ -1,10 +1,16 @@
+from audioop import add
 from HashMap import HashMap
 from Graph import Graph
+from LoadTrucks import loadTruck
 from Package import Package
 import csv
+from Truck import Truck
 
 # create a hashMap of packages
 package_list = HashMap(64)
+
+# store all the addresses in a list
+addressList = []
 
 # create a function to load package data into a hash table
 
@@ -34,19 +40,20 @@ def loadPackageData(fileName):
             package_list.insert(
                 current_package.address, current_package)
 
+            # create a list of all the addresses
+            addressList.append(current_package.address)
+
 
 # call the loadPackageData to store the csv data into the declared hashmap
 loadPackageData("wgups_package_file.csv")
 
 # tests to see if hashmap works
 package_1 = package_list.search('4300 S 1300 E')
-package_2 = package_list.search("11")
-package_3 = package_list.search("20")
+
 print(package_1)
-print(package_2)
-print(package_3)
+
 print(package_1.address)
-print(package_3.address)
+
 print(package_list.hash_table)
 package_list.printAllItems()
 for i in range(package_list.size):
@@ -82,3 +89,10 @@ def loadDistanceData(fileName):
 fileName = "wgups_distance_table.csv"
 loadDistanceData(fileName)
 distanceGraph.printEdgeWeights()
+
+truck1 = Truck(1)
+truck2 = Truck(2)
+
+loadTruck(addressList, package_list, truck1)
+print("\n")
+loadTruck(addressList, package_list, truck2)

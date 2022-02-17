@@ -1,8 +1,9 @@
 # the truck will be used as the container for packages
 
 class Truck:
-    def __init__(self):
-        self.container = []
+    def __init__(self, truckId):
+        self.truckId = truckId
+        self.container = []  # list of packages
         self.speed = 18
         self.milesTravelled = 0
         self.capacity = 16
