@@ -1,9 +1,9 @@
 from Package import Package
 
 
-def loadTruck(allAddresses, hashTable, truck):
+def loadTruck(allAddresses, hashTable, truck, usedAddresses = []):
     unassignedAddresses = allAddresses
-    assignedAddresses = []
+    assignedAddresses = usedAddresses
 
     # create a list of all addresses
     # determine which truck is passed
@@ -62,10 +62,28 @@ def loadTruck(allAddresses, hashTable, truck):
                 if (len(truck.container) < 16 and packageToCheck.delivery_deadline == "EOD" and packageToCheck.notes == ""):
                     assignedAddresses.append(address)
                     truck.addPackage(packageToCheck)
+    
+    if truck.truckId == 3:
+        for address in unassignedAddresses:
+            if address in assignedAddresses:
+                pass
+            else:
+                packageToCheck = Package()
+                packageToCheck = hashTable.search(address)
 
-    print(truck.container)
-    print(len(truck.container))
-    print(assignedAddresses)
+                if (len(truck.container) < 16):
+                    assignedAddresses.append(address)
+                    truck.addPackage(packageToCheck)
+
+
+    # print(truck.container)
+    # print(len(truck.container))
+    # print(truck.container)
+
+    for package in truck.container:
+        print(package.address)
+
+    return assignedAddresses
 
     # if truck.id == 1
     # load packages that are to be delivered at 9:00
@@ -116,3 +134,7 @@ def loadTruck(allAddresses, hashTable, truck):
 
     # TODO
     # fix the checker to see if the package has been assigned already. It needs to keep track of all the assigned addresses already
+    # BIG DESIGN FLAW!!! You should refactor your program:
+        #1. You should not use address as the key, instead use packageId as the key for the hash table
+        #2. refactor code to use the same naming convention, use underscores
+        #3. No need to create the an address list checker.

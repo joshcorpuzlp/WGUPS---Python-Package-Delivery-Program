@@ -1,4 +1,3 @@
-from audioop import add
 from HashMap import HashMap
 from Graph import Graph
 from LoadTrucks import loadTruck
@@ -92,7 +91,12 @@ distanceGraph.printEdgeWeights()
 
 truck1 = Truck(1)
 truck2 = Truck(2)
+truck3 = Truck(3)
 
-loadTruck(addressList, package_list, truck1)
+result = loadTruck(addressList, package_list, truck1, [])
 print("\n")
-loadTruck(addressList, package_list, truck2)
+result = loadTruck(addressList, package_list, truck2, usedAddresses= result)
+print("\n")
+result = loadTruck(addressList, package_list, truck3, usedAddresses= result)
+
+
