@@ -43,8 +43,9 @@ class Graph():
         for vertex in self.vertex_list_a:
             print("key: ", vertex, "values: ", self.edge_weights[vertex], "\n")
 
+    # returns the list of edge weights for passed vertex
     def get_edge_weights(self, vertex_a):
-        print(self.edge_weights[vertex_a])
+        return self.edge_weights[vertex_a]
 
     def get_graph(self):
         for node in (self.edge_weights):

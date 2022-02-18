@@ -1,3 +1,4 @@
+from turtle import distance
 from hash_map import HashMap
 from graph import Graph
 from load_trucks import load_truck
@@ -112,5 +113,7 @@ trucks = loading_process.load_trucks(package_list)
 # print("\n")
 # result = truck3.load_truck(package_list, loaded_package_list=result)
 
-print("\n")
-print(truck1.container[1])
+# print("\n")
+# print(truck1.container[1])
+
+loading_process.greedy_algorithm(truck1, distanceGraph)

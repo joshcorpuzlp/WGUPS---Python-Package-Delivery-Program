@@ -1,6 +1,7 @@
 from pickle import TRUE
 from package import Package
 from truck import Truck
+from graph import Graph
 
 
 class LoadingProcess():
@@ -96,3 +97,23 @@ class LoadingProcess():
                   package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
 
         return self.trucks
+
+    def greedy_algorithm(self, truck, distance_graph):
+        min_distance = float('inf')
+        nearest_neighbor = "HUB"
+        truck.route.append("HUB")
+        vertex_a = "HUB"
+        adjacency_list = distance_graph.get_edge_weights(vertex_a)
+
+        for location in adjacency_list:
+            if location[0] not in truck.container:
+                pass
+            else:
+                if location[1] < min_distance and location[1] != 0:
+                    min_distance = location[1]
+                    nearest_neighbor = location[0]
+
+        truck.route.append(nearest_neighbor)
+        vertex_a = nearest_neighbor
+
+        print(nearest_neighbor)
