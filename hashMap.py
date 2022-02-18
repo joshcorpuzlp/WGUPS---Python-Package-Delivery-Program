@@ -5,6 +5,7 @@ class HashMap():
     def __init__(self, size):
         self.size = size
         self.hash_table = self.create_buckets()
+        self.item_counter = 0
 
     def create_buckets(self):
         return [[] for _ in range(self.size)]
@@ -39,6 +40,9 @@ class HashMap():
         # if the hash_key is empty, add the key value pair into that list
         else:
             self.hash_table[hash_key].append([key, value])
+        
+        #add 1 to counter
+        self.item_counter += 1
 
     # creates a hash key by converting the id (string) to an integer
     def __convertIdToHashKey(self, key):
@@ -57,6 +61,9 @@ class HashMap():
                     self.hash_table[hash_key].append([key, value])
         else:
             self.hash_table[hash_key].append([key, value])
+        
+        #add 1 to counter
+        self.item_counter += 1
 
     # Method removes an item from th hashmap
 
@@ -68,6 +75,9 @@ class HashMap():
             for i in range(len(self.hash_table[hash_key])):
                 if self.hash_table[hash_key][i][0] == key:
                     self.hash_table[hash_key].pop(i)
+
+                    # subtracts 1 from item counter
+                    self.item_counter -= 1
                     return True
 
     def search(self, key):

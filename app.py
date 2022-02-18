@@ -36,8 +36,8 @@ def loadPackageData(fileName):
             current_package.status = "AT_HUB"
 
             # add the package object in the list
-            package_list.insert(
-                current_package.address, current_package)
+            package_list.insertById(
+                current_package.id, current_package)
 
             # create a list of all the addresses
             addressList.append(current_package.address)
@@ -47,11 +47,17 @@ def loadPackageData(fileName):
 loadPackageData("wgups_package_file.csv")
 
 # tests to see if hashmap works
-package_1 = package_list.search('4300 S 1300 E')
+package_1 = package_list.searchById('1')
+package_2 = package_list.searchById('2')
+package_3 = package_list.searchById('3')
 
 print(package_1)
+print(package_2)
+print(package_3)
 
 print(package_1.address)
+print(package_2.address)
+print(package_3.address)
 
 print(package_list.hash_table)
 package_list.printAllItems()
@@ -93,10 +99,10 @@ truck1 = Truck(1)
 truck2 = Truck(2)
 truck3 = Truck(3)
 
-result = loadTruck(addressList, package_list, truck1, [])
+result = loadTruck(package_list, truck1)
 print("\n")
-result = loadTruck(addressList, package_list, truck2, usedAddresses= result)
+result = loadTruck(package_list, truck2, updated_package_list = result)
 print("\n")
-result = loadTruck(addressList, package_list, truck3, usedAddresses= result)
+result = loadTruck(package_list, truck3, updated_package_list = result)
 
 

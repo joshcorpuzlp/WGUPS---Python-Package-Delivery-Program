@@ -1,79 +1,78 @@
 from Package import Package
 
 
-def loadTruck(allAddresses, hashTable, truck, usedAddresses = []):
-    unassignedAddresses = allAddresses
-    assignedAddresses = usedAddresses
+def loadTruck(package_list, truck, updated_package_list = []):
+    loaded_packages = updated_package_list
+    package = Package()
 
     # create a list of all addresses
     # determine which truck is passed
 
     if truck.truckId == 1:
-        for address in unassignedAddresses:
-            if address in assignedAddresses:
+        for i in range(1, package_list.item_counter + 1):
+            package = package_list.searchById(f"{i}")
+            if package in loaded_packages:
                 pass
             else:
-                packageToCheck = Package()
-                packageToCheck = hashTable.search(address)
-
+                if len(truck.container) < 16:
                 # conditions to load into truck 1
-                if (packageToCheck.delivery_deadline == "9:00 AM"):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (package.delivery_deadline == "9:00 AM"):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                if (packageToCheck.delivery_deadline == "10:30 AM" and packageToCheck.notes != "" and packageToCheck.notes != "Wrong Address listed" and packageToCheck.notes != "Delayed on flight---will not arrive to depot until 9:05 am"):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (package.delivery_deadline == "10:30 AM" and package.notes != "" and package.notes != "Wrong Address listed" and package.notes != "Delayed on flight---will not arrive to depot until 9:05 am"):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                if (packageToCheck.delivery_deadline == "10:30 AM" and packageToCheck.notes == ""):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (package.delivery_deadline == "10:30 AM" and package.notes == ""):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                if (len(truck.container) < 16 and packageToCheck.delivery_deadline == "EOD" and packageToCheck.notes == ""):
+                    if (len(truck.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
-
+                
     if truck.truckId == 2:
-        for address in unassignedAddresses:
-            if address in assignedAddresses:
+        for i in range(1, package_list.item_counter + 1):
+            package = Package()
+            package = package_list.searchById(f"{i}")
+            if package in loaded_packages:
                 pass
             else:
-                packageToCheck = Package()
-                packageToCheck = hashTable.search(address)
+                if len(truck.container) < 16:
+                    # conditions to load into truck 2
+                    if (package.delivery_deadline == "10:30 AM" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                # conditions to load into truck 2
-                if (packageToCheck.delivery_deadline == "10:30 AM" and packageToCheck.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (package.delivery_deadline == "EOD" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                if (packageToCheck.delivery_deadline == "EOD" and packageToCheck.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (package.delivery_deadline == "EOD" and package.notes == "Wrong address listed"):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                if (packageToCheck.delivery_deadline == "EOD" and packageToCheck.notes == "Wrong address listed"):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (package.delivery_deadline == "EOD" and package.notes == "Can only be on truck 2"):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
-                if (packageToCheck.delivery_deadline == "EOD" and packageToCheck.notes == "Can only be on truck 2"):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
-
-                if (len(truck.container) < 16 and packageToCheck.delivery_deadline == "EOD" and packageToCheck.notes == ""):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                    if (len(truck.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
     
     if truck.truckId == 3:
-        for address in unassignedAddresses:
-            if address in assignedAddresses:
+        for i in range(1, package_list.item_counter + 1):
+            package = Package()
+            package = package_list.searchById(f"{i}")
+            if package in loaded_packages:
                 pass
             else:
-                packageToCheck = Package()
-                packageToCheck = hashTable.search(address)
-
-                if (len(truck.container) < 16):
-                    assignedAddresses.append(address)
-                    truck.addPackage(packageToCheck)
+                if len(truck.container) < 16:
+                    if (len(truck.container) < 16):
+                        loaded_packages.append(package)
+                        truck.addPackage(package)
 
 
     # print(truck.container)
@@ -83,7 +82,7 @@ def loadTruck(allAddresses, hashTable, truck, usedAddresses = []):
     for package in truck.container:
         print(package.address)
 
-    return assignedAddresses
+    return loaded_packages
 
     # if truck.id == 1
     # load packages that are to be delivered at 9:00
