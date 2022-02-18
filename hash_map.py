@@ -40,17 +40,17 @@ class HashMap():
         # if the hash_key is empty, add the key value pair into that list
         else:
             self.hash_table[hash_key].append([key, value])
-        
-        #add 1 to counter
+
+        # add 1 to counter
         self.item_counter += 1
 
     # creates a hash key by converting the id (string) to an integer
-    def __convertIdToHashKey(self, key):
+    def __convert_id_to_hash_key(self, key):
         return int(key)
 
     # same logic as insert but instead of creating the hash_key function, it just uses the package id as the hash_function
-    def insertById(self, key, value):
-        hash_key = self.__convertIdToHashKey(key)
+    def insert_by_id(self, key, value):
+        hash_key = self.__convert_id_to_hash_key(key)
 
         if (self.hash_table[hash_key]):
             for pair in self.hash_table[hash_key]:
@@ -61,14 +61,14 @@ class HashMap():
                     self.hash_table[hash_key].append([key, value])
         else:
             self.hash_table[hash_key].append([key, value])
-        
-        #add 1 to counter
+
+        # add 1 to counter
         self.item_counter += 1
 
     # Method removes an item from th hashmap
 
     def remove(self, key):
-        hash_key = self.__getHashKey(key)
+        hash_key = self.__convert_id_to_hash_key(key)
         if not self.hash_table[hash_key]:
             return False
         else:
@@ -91,8 +91,8 @@ class HashMap():
 
             return None
 
-    def searchById(self, key):
-        hash_key = self.__convertIdToHashKey(key)
+    def search_by_id(self, key):
+        hash_key = self.__convert_id_to_hash_key(key)
         if not self.hash_table[hash_key]:
             return None
         else:
@@ -111,7 +111,7 @@ class HashMap():
     #         pass
 
     # prints all items within the hashtable
-    def printAllItems(self):
+    def print_all_items(self):
         for bucket in self.hash_table:
             for kvp in bucket:
                 print(kvp[1])

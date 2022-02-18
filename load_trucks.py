@@ -1,42 +1,45 @@
-from Package import Package
+from package import Package
 
 
-def loadTruck(package_list, truck, updated_package_list = []):
+def load_truck(package_list, truck, updated_package_list=[]):
     loaded_packages = updated_package_list
     package = Package()
 
     # create a list of all addresses
     # determine which truck is passed
 
-    if truck.truckId == 1:
+    if truck.truck_id == 1:
         for i in range(1, package_list.item_counter + 1):
-            package = package_list.searchById(f"{i}")
+            package = package_list.search_by_id(f"{i}")
             if package in loaded_packages:
                 pass
             else:
                 if len(truck.container) < 16:
-                # conditions to load into truck 1
+                    # conditions to load into truck 1
                     if (package.delivery_deadline == "9:00 AM"):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 1"
+                        truck.add_package(package)
 
                     if (package.delivery_deadline == "10:30 AM" and package.notes != "" and package.notes != "Wrong Address listed" and package.notes != "Delayed on flight---will not arrive to depot until 9:05 am"):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 1"
+                        truck.add_package(package)
 
                     if (package.delivery_deadline == "10:30 AM" and package.notes == ""):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 1"
+                        truck.add_package(package)
 
                     if (len(truck.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 1"
+                        truck.add_package(package)
 
-                
-    if truck.truckId == 2:
+    if truck.truck_id == 2:
         for i in range(1, package_list.item_counter + 1):
             package = Package()
-            package = package_list.searchById(f"{i}")
+            package = package_list.search_by_id(f"{i}")
             if package in loaded_packages:
                 pass
             else:
@@ -44,43 +47,50 @@ def loadTruck(package_list, truck, updated_package_list = []):
                     # conditions to load into truck 2
                     if (package.delivery_deadline == "10:30 AM" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 2"
+                        truck.add_package(package)
 
                     if (package.delivery_deadline == "EOD" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 2"
+                        truck.add_package(package)
 
                     if (package.delivery_deadline == "EOD" and package.notes == "Wrong address listed"):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 2"
+                        truck.add_package(package)
 
                     if (package.delivery_deadline == "EOD" and package.notes == "Can only be on truck 2"):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
+                        package.status = "LOADED ON TRUCK 2"
+                        truck.add_package(package)
 
                     if (len(truck.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
-    
-    if truck.truckId == 3:
+                        package.status = "LOADED ON TRUCK 2"
+                        truck.add_package(package)
+
+    if truck.truck_id == 3:
         for i in range(1, package_list.item_counter + 1):
             package = Package()
-            package = package_list.searchById(f"{i}")
+            package = package_list.search_by_id(f"{i}")
             if package in loaded_packages:
                 pass
             else:
                 if len(truck.container) < 16:
                     if (len(truck.container) < 16):
                         loaded_packages.append(package)
-                        truck.addPackage(package)
-
+                        package.status = "LOADED ON TRUCK 3"
+                        truck.add_package(package)
 
     # print(truck.container)
     # print(len(truck.container))
     # print(truck.container)
 
+    # checker
     for package in truck.container:
-        print(package.address)
+        print(package.id, package.address,
+              package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
 
     return loaded_packages
 
@@ -130,10 +140,3 @@ def loadTruck(package_list, truck, updated_package_list = []):
     # Priority 5: Packages that are EOD with no special notes, but cannot exceed the load of the trucks (16 packages)
     # After all trucks are loaded, the greedy_path_algorithm changes the route to make it more efficient
     # O(N^2)
-
-    # TODO
-    # fix the checker to see if the package has been assigned already. It needs to keep track of all the assigned addresses already
-    # BIG DESIGN FLAW!!! You should refactor your program:
-        #1. You should not use address as the key, instead use packageId as the key for the hash table
-        #2. refactor code to use the same naming convention, use underscores
-        #3. No need to create the an address list checker.

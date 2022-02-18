@@ -12,14 +12,14 @@ class Graph():
         self.edge_weights = {}
 
     # Adds a node in the vertex list
-    def addVertex(self, vertex):
+    def add_vertex(self, vertex):
         # check if the vertex is not in the vertex_list already
         if vertex not in self.vertex_list_a:
             self.vertex_list_a.append(vertex)
         else:
             print("Vertex: ", vertex, " is in the vertex list already")
 
-    def addEdgeWeights(self, vertex_a, vertex_b, weight):
+    def add_edge_weights(self, vertex_a, vertex_b, weight):
         temp = []
         if vertex_a in self.vertex_list_a and vertex_b in self.vertex_list_a:
 
@@ -35,17 +35,17 @@ class Graph():
         else:
             print("Nodes are not part of the vertex list")
 
-    def printVertexList(self):
+    def print_vertex_list(self):
         for i in range(len(self.vertex_list_a)):
             print(self.vertex_list_a[i])
 
-    def printEdgeWeights(self):
+    def print_edge_weights(self):
         for vertex in self.vertex_list_a:
             print("key: ", vertex, "values: ", self.edge_weights[vertex], "\n")
 
-    def getEdgeWeights(self, vertex_a):
+    def get_edge_weights(self, vertex_a):
         print(self.edge_weights[vertex_a])
 
-    def getGraph(self):
+    def get_graph(self):
         for node in (self.edge_weights):
             print(node, "--->", [i for i in self.edge_weights[node]], "\n")
