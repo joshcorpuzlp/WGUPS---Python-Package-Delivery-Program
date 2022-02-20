@@ -116,4 +116,25 @@ trucks = loading_process.load_trucks(package_list)
 # print("\n")
 # print(truck1.container[1])
 
-loading_process.greedy_algorithm(truck1, distanceGraph)
+print('\n')
+print(truck1.container)
+
+print('\n')
+print(truck1.address_list)
+
+print('\n')
+print(truck2.container)
+
+print('\n')
+print(truck2.address_list)
+print('\n')
+
+
+print(truck3.container)
+
+print('\n')
+print(truck3.address_list)
+print('\n')
+
+loading_process.greedy_algorithm(truck = truck3, distance_graph = distanceGraph)
+print('\n')
