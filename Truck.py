@@ -1,4 +1,5 @@
 # the truck will be used as the container for packages
+from turtle import distance
 from package import Package
 
 
@@ -9,7 +10,7 @@ class Truck:
         self.address_list = []
         self.route = []
         self.speed = 18
-        self.miles_travelled = 0
+        self.miles_travelled = 0.0
         self.capacity = 16
         self.status = "AT_HUB"
         self.start_time = "8:00 AM"
@@ -26,6 +27,10 @@ class Truck:
 
     def add_miles(self, miles_travelled):
         self.miles_travelled += miles_travelled
+    
+    def calculate_miles_travelled(self):
+        for kvp in self.route:
+            self.add_miles(float(kvp[0]))
 
     def set_status(self, status):
         self.status = status
@@ -140,3 +145,36 @@ class Truck:
                   package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
 
         return loaded_packages
+
+
+    #we must calculate the delivery time for each package
+    #move to truck as a class method
+    def deliver_packages(self):
+        route = self.route
+        container = self.container
+        
+        for location in route:
+            for package in container:
+                if package.address == location[1]:
+                    package.status = "Delivered"
+            
+        for package in container:
+            print(package.id, package.address, package.status)
+
+    
+    #todo: figure out how to calculate the miles up to a location
+
+    # def get_miles_travelled_to_location(self, address):
+    #     distance_to_location = 0.00
+
+    #     while address != location[]
+
+    #     for location in self.route:
+    #         while address != location[1]:
+    #             edge_weight = float(location[0])
+    #             distance_to_location += edge_weight
+        
+    #     return distance_to_location
+    
+
+

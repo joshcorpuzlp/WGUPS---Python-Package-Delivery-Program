@@ -47,6 +47,14 @@ class Graph():
     def get_edge_weights(self, vertex_a):
         return self.edge_weights[vertex_a]
 
+    def get_edge_weight(self, vertex_a, vertex_b):
+        adjacency_list = self.edge_weights[vertex_a]
+        for location in adjacency_list:
+            if location[0] == vertex_b:
+                return [location[1], vertex_b]
+
+        
+
     def get_graph(self):
         for node in (self.edge_weights):
             print(node, "--->", [i for i in self.edge_weights[node]], "\n")
