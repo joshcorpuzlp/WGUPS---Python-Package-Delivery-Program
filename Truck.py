@@ -10,7 +10,7 @@ class Truck:
         self.address_list = []
         self.route = []
         self.speed = 18
-        self.miles_travelled = 0.0
+        self.miles_traveled = 0.0
         self.capacity = 16
         self.status = "AT_HUB"
         self.start_time = datetime.datetime(
@@ -31,10 +31,10 @@ class Truck:
             if package.id == package_id:
                 return package
 
-    def add_miles(self, miles_travelled):
-        self.miles_travelled += miles_travelled
+    def add_miles(self, miles_traveled):
+        self.miles_traveled += miles_traveled
 
-    def calculate_miles_travelled(self):
+    def calculate_miles_traveled(self):
         for kvp in self.route:
             self.add_miles(float(kvp[0]))
 
@@ -148,8 +148,7 @@ class Truck:
 
         # checker
         for package in self.container:
-            print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status, "---", package.datetime_delivered)
+            print(f'Id: {package.id}, Address: {package.get_full_address()}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
 
         return loaded_packages
 
@@ -164,7 +163,7 @@ class Truck:
                 if package.address == location[1]:
                     package.status = "DELIVERED"
                     # calls the method get_miles_travelled_to_location to calculate miles travelled from HUB to provided location address
-                    package.miles_travelled = self.get_miles_travelled_to_location(
+                    package.miles_traveled = self.get_miles_traveled_to_location(
                         package.address)
                     # converts the miles travelled to the # of hours it takes to get to that location
                     package.time_elapsed = self.convert_distance_to_time(
@@ -180,11 +179,10 @@ class Truck:
         self.end_time = self.start_time + total_time_delta
 
         for package in container:
-            print(package.id, package.address, package.status,
-                  package.miles_travelled, package.time_elapsed, package.datetime_delivered)
+            print(f'Id: {package.id}, Address: {package.get_full_address()}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
 
     # calculate the miles travelled to get to that location
-    def get_miles_travelled_to_location(self, address_to_get_to):
+    def get_miles_traveled_to_location(self, address_to_get_to):
         distance_to_location = 0.00
         current_address = 'HUB'
 
@@ -200,24 +198,23 @@ class Truck:
 
     # calcualtes time_elapsed to get to the given address
     def convert_distance_to_time(self, address_to_get_to):
-        miles_travelled = self.get_miles_travelled_to_location(
+        miles_traveled = self.get_miles_traveled_to_location(
             address_to_get_to)
-        time_elapsed = miles_travelled / 18  # 18 miles per hour
+        time_elapsed = miles_traveled / 18  # 18 miles per hour
 
         return time_elapsed
 
-    def get_package_status_at_time(self, datetime_input):
+    def get_all_packages_status_at_time(self, datetime_input):
         container = self.container
 
         for package in container:
             if datetime_input <= package.datetime_delivered:
                 if datetime_input > self.start_time:
-                    package.status = "EN_ROUTE"
+                    package.status = "EN ROUTE"
                 else:
                     package.status = "AT HUB"
             else:
                 package.status = "DELIVERED"
 
         for package in container:
-            print(package.id, package.address, package.status,
-                  package.miles_travelled, package.time_elapsed, package.datetime_delivered)
+            print(f'Id: {package.id}, Address: {package.get_full_address()}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')

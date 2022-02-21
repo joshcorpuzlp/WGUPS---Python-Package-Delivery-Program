@@ -9,3 +9,7 @@ TODO - 02/18/2022
 1. Pass each truck's category list to a greedy algorithm to optimize list -- We'll be using nearest Neighbor
     a. refer the nearestNeighborPseudoCode and develop it some more
     b. make sure to add 
+
+
+TODO: 02/19/2022
+1. Make sure to update the address for package 9 at 10:20AM before optimizing truck2

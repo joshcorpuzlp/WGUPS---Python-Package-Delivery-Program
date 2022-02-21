@@ -52,7 +52,7 @@ load_package_data("wgups_package_file.csv")
 # 1. Load the addresses in Column A in the Graph's vertex list
 # 2. Load the address_2 it's corresponding distance to address_1 as a 2-item list appended to a list of
 
-distanceGraph = Graph()
+distance_graph = Graph()
 
 
 def load_distance_data(file_name):
@@ -65,13 +65,13 @@ def load_distance_data(file_name):
 
     # load the addresses to the vertex list
     for row in rows:
-        distanceGraph.add_vertex(row[0])
+        distance_graph.add_vertex(row[0])
 
     # # load contents for adjacency list
-    for i in range(len(distanceGraph.vertex_list_a)):
-        for j in range(len(distanceGraph.vertex_list_a)):
-            distanceGraph.add_edge_weights(
-                distanceGraph.vertex_list_a[i], distanceGraph.vertex_list_a[j], rows[i][j+1])
+    for i in range(len(distance_graph.vertex_list_a)):
+        for j in range(len(distance_graph.vertex_list_a)):
+            distance_graph.add_edge_weights(
+                distance_graph.vertex_list_a[i], distance_graph.vertex_list_a[j], rows[i][j+1])
 
 
 # load distance data from csv
@@ -92,35 +92,29 @@ loading_process = LoadingProcess(trucks)
 # load the trucks with the passed package_list
 trucks = loading_process.load_trucks(package_list)
 
-
 # optimize truck1 and truck3's routes
-loading_process.nearest_neighbor(truck=truck1, distance_graph=distanceGraph)
-print('\n')
-loading_process.nearest_neighbor(truck=truck3, distance_graph=distanceGraph)
-print('\n')
+loading_process.nearest_neighbor(truck=truck1, distance_graph=distance_graph)
+loading_process.nearest_neighbor(truck=truck3, distance_graph=distance_graph)
 
 
 # FIXING THE WRONG ADDRESS for PACKAGE_9 before optimizing truck2
 # retrieve package 9 from truck container and save it to a local variable
-print(truck2.get_package('9'))
 package_9 = truck2.get_package("9")
-
-# remove package 9 from truck container and address list
+# remove package 9 from truck's container and address_list
 truck2.remove_package(truck2.get_package('9'))
 
-# update its values
+# update package_9 values
 package_9.set_address('410 S State St')
 package_9.set_city('Salt Lake City')
 package_9.set_zip('84111')
 
-# add package_9 to the container which will also add it to the address_list
+# add package_9 to the container and address_list
 truck2.add_package(package_9)
 
 # Optimize truck2's route
-loading_process.nearest_neighbor(truck=truck2, distance_graph=distanceGraph)
+loading_process.nearest_neighbor(truck=truck2, distance_graph=distance_graph)
 print('\n')
 
-print('\n')
 print('Truck 1 summary')
 truck1.deliver_packages()
 print('Start:', truck1.start_time)
@@ -142,36 +136,63 @@ print('End:', truck2.end_time)
 print('\n')
 
 
-truck1.calculate_miles_travelled()
-truck2.calculate_miles_travelled()
-truck3.calculate_miles_travelled()
+truck1.calculate_miles_traveled()
+truck2.calculate_miles_traveled()
+truck3.calculate_miles_traveled()
 
 
-print("Truck 1 travelled:", truck1.miles_travelled, "miles")
-print("Truck 2 travelled:", truck2.miles_travelled, "miles")
-print("Truck 3 travelled:", truck3.miles_travelled, "miles")
+print("Truck 1 travelled:", truck1.miles_traveled, "miles")
+print("Truck 2 travelled:", truck2.miles_traveled, "miles")
+print("Truck 3 travelled:", truck3.miles_traveled, "miles")
 
-print("Total miles travelled:", truck1.miles_travelled +
-      truck2.miles_travelled + truck3.miles_travelled, "miles")
+print("Total miles travelled:", truck1.miles_traveled +
+      truck2.miles_traveled + truck3.miles_traveled, "miles")
 
 
 print('\n')
-print('Status of packages in trucks at: 10:14:21')
+print('Status of packages in trucks at: 09:10:00')
 datetime_input = datetime.datetime(
-    2022, 2, 21, hour=10, minute=14, second=21)
+    2022, 2, 21, hour=9, minute=10, second=00)
 
 print('\n')
 print('Truck 1 status')
-truck1.get_package_status_at_time(datetime_input)
-
+truck1.get_all_packages_status_at_time(datetime_input)
 print('\n')
 print('Truck 2 status')
-truck2.get_package_status_at_time(datetime_input)
-
+truck2.get_all_packages_status_at_time(datetime_input)
 print('\n')
 print('Truck 3 status')
-truck3.get_package_status_at_time(datetime_input)
+truck3.get_all_packages_status_at_time(datetime_input)
 
+print('\n')
+print('Status of packages in trucks at: 10:15:00')
+datetime_input = datetime.datetime(
+    2022, 2, 21, hour=10, minute=15, second=00)
+
+print('\n')
+print('Truck 1 status')
+truck1.get_all_packages_status_at_time(datetime_input)
+print('\n')
+print('Truck 2 status')
+truck2.get_all_packages_status_at_time(datetime_input)
+print('\n')
+print('Truck 3 status')
+truck3.get_all_packages_status_at_time(datetime_input)
+
+print('\n')
+print('Status of packages in trucks at: 12:30:00')
+datetime_input = datetime.datetime(
+    2022, 2, 21, hour=12, minute=30, second=00)
+
+print('\n')
+print('Truck 1 status')
+truck1.get_all_packages_status_at_time(datetime_input)
+print('\n')
+print('Truck 2 status')
+truck2.get_all_packages_status_at_time(datetime_input)
+print('\n')
+print('Truck 3 status')
+truck3.get_all_packages_status_at_time(datetime_input)
 # print('\n')
 # print(truck2.get_miles_travelled_to_location("5383 South 900 East #104"))
 # print(truck2.convert_distance_to_time("HUB"))

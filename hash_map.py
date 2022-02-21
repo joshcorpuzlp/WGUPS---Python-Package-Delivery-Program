@@ -1,4 +1,3 @@
-# might be a good idea to try and use a different hash_map
 # Hash_map will be used for storing all the package objects
 
 class HashMap():

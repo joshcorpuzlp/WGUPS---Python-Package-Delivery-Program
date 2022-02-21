@@ -4,12 +4,14 @@ from truck import Truck
 from graph import Graph
 
 
+# the loading process is abstracted as its own class
 class LoadingProcess():
     def __init__(self, trucks=[]):
         self.trucks = []
         for truck in trucks:
             self.trucks.append(truck)
 
+    # non-heuristic algorithm to load each package in a truck depending on their notes, delivery deadlines and other package dependencies
     def load_trucks(self, package_list):
         loaded_packages = []
         package = Package()
@@ -71,33 +73,29 @@ class LoadingProcess():
                         self.trucks[1].add_package(package)
                         is_package_loaded = True
 
-        # print(truck.container)
-        # print(len(truck.container))
-        # print(truck.container)
-
-        # checker
-        # for truck in self.trucks:
-        #     for package in truck.container:
-        #         print(package.id, package.address,
-        #               package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
-
+        # checkers
         print("Truck #1")
         for package in self.trucks[0].container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status)
+                  package.delivery_deadline, "---", package.notes)
+        print('\n')
 
         print("Truck #2")
         for package in self.trucks[1].container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status)
+                  package.delivery_deadline, "---", package.notes)
+        print('\n')
 
         print("Truck #3")
         for package in self.trucks[2].container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status)
+                  package.delivery_deadline, "---", package.notes)
+        print('\n')
 
         return self.trucks
 
+    # algorithm used to sort the truck's packages into a route
+    # uses the nearest neighbor algorithm to create an optimal route for each truck
     def nearest_neighbor(self, truck, distance_graph):
         min_distance = 99999.99
         nearest_neighbor = []
@@ -128,4 +126,4 @@ class LoadingProcess():
         distance_to_hub = distance_graph.get_edge_weight(vertex_a, "HUB")
         truck.route.append(distance_to_hub)
 
-        print(truck.route, len(truck.container), len(truck.route))
+        # print(truck.route, len(truck.container), len(truck.route))

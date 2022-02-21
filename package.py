@@ -11,12 +11,11 @@ class Package():
         self.zip = ""
         self.delivery_deadline = ""
         self.mass_kg = 0
-        self.status = ""
         self.notes = ""
-        self.miles_travelled = 0.00
+        self.status = ""
+        self.miles_traveled = 0.00
         self.time_elapsed = 0.00
-        self.datetime_delivered = datetime.datetime(
-            2022, 2, 21, hour=8, minute=0, second=0)
+        self.time_delivered = datetime.time(hour=8, minute=0, second=0)
 
     def __repr__(self):
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (self.id, self.address, self.city, self.state, self.zip, self.delivery_deadline, self.mass_kg, self.status, self.notes)
@@ -27,8 +26,44 @@ class Package():
     def set_address(self, updated_address):
         self.address = updated_address
 
+    def get_address(self):
+        return self.address
+
     def set_city(self, updated_city):
         self.city = updated_city
 
+    def get_city(self):
+        return self.city
+
     def set_zip(self, updated_zip):
         self.zip = updated_zip
+
+    def get_zip(self):
+        return self.zip
+
+    def get_full_address(self):
+        return f'{self.address} {self.city}, {self.state} {self.zip}'
+
+    def set_delivery_deadline(self, delivery_deadline):
+        self.delivery_deadline = delivery_deadline
+
+    def get_delivery_deadline(self):
+        return self.delivery_deadline
+
+    def set_mass_kg(self, mass_kg):
+        self.mass_kg = mass_kg
+
+    def get_mass_kg(self):
+        return self.mass_kg
+
+    def set_notes(self, notes):
+        self.notes = notes
+
+    def get_notes(self):
+        return self.notes
+
+    def set_status(self, status):
+        self.status = status
+
+    def get_status(self):
+        return self.status
