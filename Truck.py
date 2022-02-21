@@ -179,7 +179,8 @@ class Truck:
         self.end_time = self.start_time + total_time_delta
 
         for package in container:
-            print(f'Id: {package.id}, Address: {package.get_full_address()}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
+            print(
+                f'Package Id: {package.id}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
 
     # calculate the miles travelled to get to that location
     def get_miles_traveled_to_location(self, address_to_get_to):
@@ -217,4 +218,11 @@ class Truck:
                 package.status = "DELIVERED"
 
         for package in container:
-            print(f'Id: {package.id}, Address: {package.get_full_address()}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
+            print(
+                f'Package Id: {package.id}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
+
+    def print_container_contents(self):
+        print(f"Truck #{self.truck_id}")
+        for package in self.container:
+            print(package.id, package.address,
+                  package.delivery_deadline, "---", package.notes)

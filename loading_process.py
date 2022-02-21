@@ -100,14 +100,21 @@ class LoadingProcess():
         min_distance = 99999.99
         nearest_neighbor = []
         vertex_a = "HUB"
+        address_list_temp = []
         adjacency_list = distance_graph.get_edge_weights(vertex_a)
+
+        # always clear the contents of the route so it can be run again without duplicating the HUBs
+        truck.route.clear()
 
         while (len(truck.address_list) > 0):
             for location in adjacency_list:
                 if location[0] not in truck.address_list:
                     pass
                 elif location[0] == vertex_a:
+                    # removes the found nearest_neighbor from address_list
                     truck.address_list.remove(location[0])
+                    # adds the found nearest_neighbor to temp_address_list, to reset the truck's address_list when the algorithm is over
+                    address_list_temp.append(location[0])
                     pass
 
                 else:
@@ -116,14 +123,26 @@ class LoadingProcess():
                         min_distance = distance
                         nearest_neighbor = location
 
+            # removes the found nearest_neighbor from address_list
             truck.address_list.remove(nearest_neighbor[0])
+            # adds the found nearest_neighbor to temp_address_list, to reset the truck's address_list when the algorithm is over
+            address_list_temp.append(nearest_neighbor[0])
+            # adds the nearest_neighbor and it's distance from vertex_a to the route
             truck.route.append([nearest_neighbor[1], nearest_neighbor[0]])
+
+            # sets vertex_a to the current nearest_neighbor
             vertex_a = nearest_neighbor[0]
-            min_distance = 99999.99
+            min_distance = 99999.99  # resets min_distance to an absurdly high number
+            # resets the adjacency list using the new vertex_a
             adjacency_list = distance_graph.get_edge_weights(vertex_a)
 
+        # once the loop is exited
+        # inserts the HUB as the first location
         truck.route.insert(0, ["0", "HUB"])
+        # retrieves the distance from the last vertex_a to HUB
         distance_to_hub = distance_graph.get_edge_weight(vertex_a, "HUB")
+        # inserts the distance from the last vertex_a to HUB into the route
         truck.route.append(distance_to_hub)
 
-        # print(truck.route, len(truck.container), len(truck.route))
+        # resets the contents of the address_list so that the method can be run again
+        truck.address_list = address_list_temp

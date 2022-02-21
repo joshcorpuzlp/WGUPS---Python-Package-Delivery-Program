@@ -1,6 +1,5 @@
 import csv
 import datetime
-from xmlrpc.client import _datetime_type
 from hash_map import HashMap
 from graph import Graph
 from loading_process import LoadingProcess
@@ -94,9 +93,12 @@ trucks = loading_process.load_trucks(package_list)
 
 # optimize truck1 and truck3's routes
 loading_process.nearest_neighbor(truck=truck1, distance_graph=distance_graph)
+loading_process.nearest_neighbor(truck=truck2, distance_graph=distance_graph)
 loading_process.nearest_neighbor(truck=truck3, distance_graph=distance_graph)
 
 
+print('\n')
+print('Correcting the address for package_9!')
 # FIXING THE WRONG ADDRESS for PACKAGE_9 before optimizing truck2
 # retrieve package 9 from truck container and save it to a local variable
 package_9 = truck2.get_package("9")
@@ -111,42 +113,11 @@ package_9.set_zip('84111')
 # add package_9 to the container and address_list
 truck2.add_package(package_9)
 
-# Optimize truck2's route
+# re-optimize truck2's route
 loading_process.nearest_neighbor(truck=truck2, distance_graph=distance_graph)
+# print truck 2's contents
+truck2.print_container_contents()
 print('\n')
-
-print('Truck 1 summary')
-truck1.deliver_packages()
-print('Start:', truck1.start_time)
-print('End:', truck1.end_time)
-
-print('\n')
-print('Truck 3 summary')
-truck3.deliver_packages()
-print('Start:', truck3.start_time)
-print('End:', truck3.end_time)
-
-print('\n')
-print('Truck 2 summary')
-truck2.start_time = truck1.end_time
-truck2.deliver_packages()
-print('Start:', truck2.start_time)
-print('End:', truck2.end_time)
-
-print('\n')
-
-
-truck1.calculate_miles_traveled()
-truck2.calculate_miles_traveled()
-truck3.calculate_miles_traveled()
-
-
-print("Truck 1 travelled:", truck1.miles_traveled, "miles")
-print("Truck 2 travelled:", truck2.miles_traveled, "miles")
-print("Truck 3 travelled:", truck3.miles_traveled, "miles")
-
-print("Total miles travelled:", truck1.miles_traveled +
-      truck2.miles_traveled + truck3.miles_traveled, "miles")
 
 
 print('\n')
@@ -193,75 +164,39 @@ truck2.get_all_packages_status_at_time(datetime_input)
 print('\n')
 print('Truck 3 status')
 truck3.get_all_packages_status_at_time(datetime_input)
-# print('\n')
-# print(truck2.get_miles_travelled_to_location("5383 South 900 East #104"))
-# print(truck2.convert_distance_to_time("HUB"))
+
+print('\n')
+print('\n')
+print('\n')
+
+print('Truck 1 summary')
+truck1.deliver_packages()
+print('Start:', truck1.start_time)
+print('End:', truck1.end_time)
+
+print('\n')
+print('Truck 3 summary')
+truck3.deliver_packages()
+print('Start:', truck3.start_time)
+print('End:', truck3.end_time)
+
+print('\n')
+print('Truck 2 summary')
+truck2.start_time = truck1.end_time
+truck2.deliver_packages()
+print('Start:', truck2.start_time)
+print('End:', truck2.end_time)
+
+print('\n')
+
+truck1.calculate_miles_traveled()
+truck2.calculate_miles_traveled()
+truck3.calculate_miles_traveled()
 
 
-# print(truck2.convert_distance_to_time("5383 South 900"))
-# print(truck3.convert_distance_to_time("HUB"))
+print("Truck 1 travelled:", truck1.miles_traveled, "miles")
+print("Truck 2 travelled:", truck2.miles_traveled, "miles")
+print("Truck 3 travelled:", truck3.miles_traveled, "miles")
 
-
-# CHECKERS
-# result = truck1.load_truck(package_list)
-# print("\n")
-# result = truck2.load_truck(package_list, loaded_package_list=result)
-# print("\n")
-# result = truck3.load_truck(package_list, loaded_package_list=result)
-
-# print("\n")
-# print(truck1.container[1])
-
-# print('\n')
-# print(truck1.container)
-
-# print('\n')
-# print(truck1.address_list)
-
-# print('\n')
-# print(truck2.container)
-
-# print('\n')
-# print(truck2.address_list)
-# print('\n')
-
-
-# print(truck3.container)
-
-# print('\n')
-# print(truck3.address_list)
-# print('\n')
-
-# Checker
-# print(truck2.get_package('9'))
-# print('\n')
-
-
-# tests to see if hashmap works
-# package_1 = package_list.search_by_id('1')
-# package_2 = package_list.search_by_id('2')
-# package_3 = package_list.search_by_id('3')
-
-# print(package_1)
-# print(package_2)
-# print(package_3)
-
-# print(package_1.address)
-# print(package_2.address)
-# print(package_3.address)
-
-# # print(package_list.hash_table)
-# package_list.print_all_items()
-
-# #prints all the contents of the hash table
-# for i in range(package_list.size):
-#     print(package_list.hash_table[i])
-
-# #prints all the edge_weights
-# distanceGraph.print_edge_weights()
-
-
-# #checkers to see miles travelled before calculating miles travelled
-# print(truck1.miles_travelled)
-# print(truck2.miles_travelled)
-# print(truck3.miles_travelled)
+print("Total miles travelled:", truck1.miles_traveled +
+      truck2.miles_traveled + truck3.miles_traveled, "miles")
