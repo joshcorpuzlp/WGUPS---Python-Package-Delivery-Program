@@ -145,10 +145,9 @@ class Truck:
                   package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
 
         return loaded_packages
-
-
-    #we must calculate the delivery time for each package
-    #move to truck as a class method
+        
+        
+    # marks each package in the truck.container as delivered if the package has the same address as the current location
     def deliver_packages(self):
         route = self.route
         container = self.container
@@ -156,25 +155,44 @@ class Truck:
         for location in route:
             for package in container:
                 if package.address == location[1]:
-                    package.status = "Delivered"
+                    package.status = "Delivered" 
+                    package.miles_travelled = self.get_miles_travelled_to_location(package.address) # calls the method get_miles_travelled_to_location to calculate miles travelled from HUB to provided location address
+                    package.time_elapsed = self.convert_distance_to_time(package.address)
             
         for package in container:
-            print(package.id, package.address, package.status)
+            print(package.id, package.address, package.status, package.miles_travelled, package.time_elapsed)
 
     
-    #todo: figure out how to calculate the miles up to a location
+    #calculate the miles travelled to get to that location
+    def get_miles_travelled_to_location(self, address_to_get_to):
+        distance_to_location = 0.00
+        current_address = 'HUB'
 
-    # def get_miles_travelled_to_location(self, address):
-    #     distance_to_location = 0.00
-
-    #     while address != location[]
-
-    #     for location in self.route:
-    #         while address != location[1]:
-    #             edge_weight = float(location[0])
-    #             distance_to_location += edge_weight
+        for location in self.route:
+            edge_weight = float(location[0])
+            distance_to_location += edge_weight
+            current_address = location[1]
+            if current_address == address_to_get_to:
+                return distance_to_location
+            else:
+                continue
         
-    #     return distance_to_location
+        return distance_to_location
+    
+    # calcualtes time_elapsed to get to the given address
+    def convert_distance_to_time(self, address_to_get_to):
+        miles_travelled = self.get_miles_travelled_to_location(address_to_get_to)
+        time_elapsed = miles_travelled / 18 #18 miles per hour
+
+        return time_elapsed
+
+    
+            
+            
+            
+                
+
+        
     
 
 

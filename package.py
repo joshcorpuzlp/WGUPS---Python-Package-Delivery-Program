@@ -9,6 +9,8 @@ class Package():
         self.mass_kg = 0
         self.status = ""
         self.notes = ""
+        self.miles_travelled = 0.00
+        self.time_elapsed = 0.00
 
     def __repr__(self):
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (self.id, self.address, self.city, self.state, self.zip, self.delivery_deadline, self.mass_kg, self.status, self.notes)

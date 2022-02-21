@@ -157,4 +157,5 @@ print(truck1.miles_travelled + truck2.miles_travelled +truck3.miles_travelled)
 
 truck1.deliver_packages()
 print(truck1.container)
-print(truck1.get_miles_travelled_to_location("2010 W 500 S"))
+print(truck1.route)
+print(truck1.get_miles_travelled_to_location("1330 2100 S"))
