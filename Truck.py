@@ -162,7 +162,7 @@ class Truck:
         for location in route:
             for package in container:
                 if package.address == location[1]:
-                    package.status = "Delivered"
+                    package.status = "DELIVERED"
                     # calls the method get_miles_travelled_to_location to calculate miles travelled from HUB to provided location address
                     package.miles_travelled = self.get_miles_travelled_to_location(
                         package.address)
@@ -184,7 +184,6 @@ class Truck:
                   package.miles_travelled, package.time_elapsed, package.datetime_delivered)
 
     # calculate the miles travelled to get to that location
-
     def get_miles_travelled_to_location(self, address_to_get_to):
         distance_to_location = 0.00
         current_address = 'HUB'
@@ -197,7 +196,6 @@ class Truck:
                 return distance_to_location
             else:
                 continue
-
         # return distance_to_location
 
     # calcualtes time_elapsed to get to the given address
@@ -207,3 +205,19 @@ class Truck:
         time_elapsed = miles_travelled / 18  # 18 miles per hour
 
         return time_elapsed
+
+    def get_package_status_at_time(self, datetime_input):
+        container = self.container
+
+        for package in container:
+            if datetime_input <= package.datetime_delivered:
+                if datetime_input > self.start_time:
+                    package.status = "EN_ROUTE"
+                else:
+                    package.status = "AT HUB"
+            else:
+                package.status = "DELIVERED"
+
+        for package in container:
+            print(package.id, package.address, package.status,
+                  package.miles_travelled, package.time_elapsed, package.datetime_delivered)

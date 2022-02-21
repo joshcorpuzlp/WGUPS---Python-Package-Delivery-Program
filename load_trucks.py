@@ -18,22 +18,22 @@ def load_truck(package_list, truck, updated_package_list=[]):
                     # conditions to load into truck 1
                     if (package.delivery_deadline == "9:00 AM"):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (package.delivery_deadline == "10:30 AM" and package.notes != "" and package.notes != "Wrong Address listed" and package.notes != "Delayed on flight---will not arrive to depot until 9:05 am"):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (package.delivery_deadline == "10:30 AM" and package.notes == ""):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (len(truck.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
     if truck.truck_id == 2:
@@ -47,27 +47,27 @@ def load_truck(package_list, truck, updated_package_list=[]):
                     # conditions to load into truck 2
                     if (package.delivery_deadline == "10:30 AM" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (package.delivery_deadline == "EOD" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (package.delivery_deadline == "EOD" and package.notes == "Wrong address listed"):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (package.delivery_deadline == "EOD" and package.notes == "Can only be on truck 2"):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
                     if (len(truck.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
     if truck.truck_id == 3:
@@ -80,7 +80,7 @@ def load_truck(package_list, truck, updated_package_list=[]):
                 if len(truck.container) < 16:
                     if (len(truck.container) < 16):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 3"
+                        package.status = "AT HUB"
                         truck.add_package(package)
 
     # print(truck.container)
@@ -90,7 +90,7 @@ def load_truck(package_list, truck, updated_package_list=[]):
     # checker
     for package in truck.container:
         print(package.id, package.address,
-              package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
+              package.delivery_deadline, "---", package.notes, "---", package.status)
 
     return loaded_packages
 

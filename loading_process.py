@@ -27,47 +27,47 @@ class LoadingProcess():
                     # truck_1: (packages with 9:00 AM or 10:30 AM deadline) AND no notes
                     if ((package.delivery_deadline == "9:00 AM" or package.delivery_deadline == "10:30 AM") and package.notes == "" and len(self.trucks[0].container) < 16):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         self.trucks[0].add_package(package)
                         is_package_loaded = True
 
                     # truck_1 which will exclude those with notes: can only be truck 2, wrong address listed, delayed, -- This will invariably allow those with package_dependencies
                     if (package.notes != "" and package.notes != "Wrong address listed" and package.notes != "Delayed on flight---will not arrive to depot until 9:05 am" and package.notes != "Can only be on truck 2" and len(self.trucks[0].container) < 16):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         self.trucks[0].add_package(package)
                         is_package_loaded = True
 
                     # truck2: if notes say: "wrong address listed" or "Can only be on truck 2"
                     if (package.notes == "Wrong address listed" or package.notes == "Can only be on truck 2" and len(self.trucks[1].container) < 16):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         self.trucks[1].add_package(package)
                         is_package_loaded = True
 
                     #truck2: (deadine is 1030 or EOD) and Delayed
                     elif ((package.delivery_deadline == "10:30 AM" or package.delivery_deadline == "EOD") and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am" and len(self.trucks[1].container) < 16):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         self.trucks[1].add_package(package)
                         is_package_loaded = True
 
                     # packages without deadline and no notes and will be placed to the first truck with less than 16 packages
                     if (len(self.trucks[2].container) < 16 and package.delivery_deadline == "EOD" and package.notes == "" and package not in loaded_packages):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 3"
+                        package.status = "AT HUB"
                         self.trucks[2].add_package(package)
                         is_package_loaded = True
 
                     elif (len(self.trucks[0].container) < 16 and package.delivery_deadline == "EOD" and package.notes == "" and package not in loaded_packages):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 1"
+                        package.status = "AT HUB"
                         self.trucks[0].add_package(package)
                         is_package_loaded = True
 
                     elif (len(self.trucks[1].container) < 16 and package.delivery_deadline == "EOD" and package.notes == "" and package not in loaded_packages):
                         loaded_packages.append(package)
-                        package.status = "LOADED ON TRUCK 2"
+                        package.status = "AT HUB"
                         self.trucks[1].add_package(package)
                         is_package_loaded = True
 
@@ -84,17 +84,17 @@ class LoadingProcess():
         print("Truck #1")
         for package in self.trucks[0].container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
+                  package.delivery_deadline, "---", package.notes, "---", package.status)
 
         print("Truck #2")
         for package in self.trucks[1].container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
+                  package.delivery_deadline, "---", package.notes, "---", package.status)
 
         print("Truck #3")
         for package in self.trucks[2].container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
+                  package.delivery_deadline, "---", package.notes, "---", package.status)
 
         return self.trucks
 
