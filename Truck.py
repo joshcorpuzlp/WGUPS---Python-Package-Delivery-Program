@@ -209,12 +209,11 @@ class Truck:
         container = self.container
 
         for package in container:
-            if datetime_input <= package.datetime_delivered:
-                if datetime_input > self.start_time:
-                    package.status = "EN ROUTE"
-                else:
-                    package.status = "AT HUB"
-            else:
+            if datetime_input <= self.start_time or None:
+                package.status = "AT HUB"
+            if datetime_input > self.start_time and datetime_input < package.datetime_delivered:
+                package.status = "EN ROUTE"
+            if datetime_input >= package.datetime_delivered:
                 package.status = "DELIVERED"
 
         for package in container:

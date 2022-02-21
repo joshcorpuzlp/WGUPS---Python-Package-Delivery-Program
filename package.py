@@ -15,8 +15,7 @@ class Package():
         self.status = ""
         self.miles_traveled = 0.00
         self.time_elapsed = 0.00
-        self.datetime_delivered = datetime.datetime(
-            2022, 2, 21, hour=8, minute=0, second=0)
+        self.datetime_delivered = None
         self.end_time = None
 
     def __repr__(self):
