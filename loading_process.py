@@ -98,12 +98,12 @@ class LoadingProcess():
 
         return self.trucks
 
-    def greedy_algorithm(self, truck, distance_graph):
+    def nearest_neighbor(self, truck, distance_graph):
         min_distance = 99999.99
         nearest_neighbor = []
         vertex_a = "HUB"
         adjacency_list = distance_graph.get_edge_weights(vertex_a)
-        
+
         while (len(truck.address_list) > 0):
             for location in adjacency_list:
                 if location[0] not in truck.address_list:
@@ -111,7 +111,7 @@ class LoadingProcess():
                 elif location[0] == vertex_a:
                     truck.address_list.remove(location[0])
                     pass
-                    
+
                 else:
                     distance = float(location[1])
                     if (distance < min_distance) and distance != 0:
@@ -120,16 +120,12 @@ class LoadingProcess():
 
             truck.address_list.remove(nearest_neighbor[0])
             truck.route.append([nearest_neighbor[1], nearest_neighbor[0]])
-            vertex_a = nearest_neighbor[0]        
-            min_distance = 99999.99       
+            vertex_a = nearest_neighbor[0]
+            min_distance = 99999.99
             adjacency_list = distance_graph.get_edge_weights(vertex_a)
-                    
-        
+
         truck.route.insert(0, ["0", "HUB"])
         distance_to_hub = distance_graph.get_edge_weight(vertex_a, "HUB")
         truck.route.append(distance_to_hub)
 
         print(truck.route, len(truck.container), len(truck.route))
-
-    
-    

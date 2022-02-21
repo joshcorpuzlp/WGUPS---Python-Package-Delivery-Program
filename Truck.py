@@ -1,6 +1,6 @@
 # the truck will be used as the container for packages
-from turtle import distance
 from package import Package
+import datetime
 
 
 class Truck:
@@ -13,21 +13,27 @@ class Truck:
         self.miles_travelled = 0.0
         self.capacity = 16
         self.status = "AT_HUB"
-        self.start_time = "8:00 AM"
-        self.end_time = "8:00 AM"
+        self.start_time = datetime.datetime(
+            2022, 2, 21, hour=8, minute=0, second=0)
+        self.end_time = None
         self.is_truck_optimized = False
 
     def add_package(self, package):
         self.container.append(package)
         self.__add_to_address_list(package)
-        
 
     def remove_package(self, package):
         self.container.remove(package)
+        self.__remove_from_address_list(package)
+
+    def get_package(self, package_id):
+        for package in self.container:
+            if package.id == package_id:
+                return package
 
     def add_miles(self, miles_travelled):
         self.miles_travelled += miles_travelled
-    
+
     def calculate_miles_travelled(self):
         for kvp in self.route:
             self.add_miles(float(kvp[0]))
@@ -43,10 +49,12 @@ class Truck:
 
     def set_route(self, route):
         self.route = route
-    
+
     def __add_to_address_list(self, package):
         self.address_list.append(package.address)
-    
+
+    def __remove_from_address_list(self, package):
+        self.address_list.remove(package.address)
 
     def optimize(self):
         if (len(self.address_list) == 0 and len(self.route) > 0):
@@ -55,7 +63,7 @@ class Truck:
         else:
             self.is_optimized = False
             return self.is_truck_optimized
-    
+
     def load_truck(self, package_list, loaded_package_list=[]):
         loaded_packages = loaded_package_list
         package = Package()
@@ -75,7 +83,6 @@ class Truck:
                             loaded_packages.append(package)
                             package.status = "LOADED ON TRUCK 1"
                             self.add_package(package)
-                            
 
                         if (package.delivery_deadline == "10:30 AM" and package.notes != "" and package.notes != "Wrong Address listed" and package.notes != "Delayed on flight---will not arrive to depot until 9:05 am"):
                             loaded_packages.append(package)
@@ -142,33 +149,47 @@ class Truck:
         # checker
         for package in self.container:
             print(package.id, package.address,
-                  package.delivery_deadline, "---", package.notes, "---", package.status, "---", )
+                  package.delivery_deadline, "---", package.notes, "---", package.status, "---", package.datetime_delivered)
 
         return loaded_packages
-        
-        
+
     # marks each package in the truck.container as delivered if the package has the same address as the current location
+
     def deliver_packages(self):
         route = self.route
         container = self.container
-        
+
         for location in route:
             for package in container:
                 if package.address == location[1]:
-                    package.status = "Delivered" 
-                    package.miles_travelled = self.get_miles_travelled_to_location(package.address) # calls the method get_miles_travelled_to_location to calculate miles travelled from HUB to provided location address
-                    package.time_elapsed = self.convert_distance_to_time(package.address)
-            
-        for package in container:
-            print(package.id, package.address, package.status, package.miles_travelled, package.time_elapsed)
+                    package.status = "Delivered"
+                    # calls the method get_miles_travelled_to_location to calculate miles travelled from HUB to provided location address
+                    package.miles_travelled = self.get_miles_travelled_to_location(
+                        package.address)
+                    # converts the miles travelled to the # of hours it takes to get to that location
+                    package.time_elapsed = self.convert_distance_to_time(
+                        package.address)
+                    # creates a timedelta object from the time_elapsed value
+                    time_delta = datetime.timedelta(hours=package.time_elapsed)
+                    # sets the package delivery time to the truck's start time + time_delta.
+                    package.datetime_delivered = self.start_time + time_delta
 
-    
-    #calculate the miles travelled to get to that location
+        # set end time for the truck's delivery
+        time_elapsed = self.convert_distance_to_time('HUB')
+        total_time_delta = datetime.timedelta(hours=time_elapsed)
+        self.end_time = self.start_time + total_time_delta
+
+        for package in container:
+            print(package.id, package.address, package.status,
+                  package.miles_travelled, package.time_elapsed, package.datetime_delivered)
+
+    # calculate the miles travelled to get to that location
+
     def get_miles_travelled_to_location(self, address_to_get_to):
         distance_to_location = 0.00
         current_address = 'HUB'
 
-        for location in self.route:
+        for location in self.route[1:]:
             edge_weight = float(location[0])
             distance_to_location += edge_weight
             current_address = location[1]
@@ -176,23 +197,13 @@ class Truck:
                 return distance_to_location
             else:
                 continue
-        
-        return distance_to_location
-    
+
+        # return distance_to_location
+
     # calcualtes time_elapsed to get to the given address
     def convert_distance_to_time(self, address_to_get_to):
-        miles_travelled = self.get_miles_travelled_to_location(address_to_get_to)
-        time_elapsed = miles_travelled / 18 #18 miles per hour
+        miles_travelled = self.get_miles_travelled_to_location(
+            address_to_get_to)
+        time_elapsed = miles_travelled / 18  # 18 miles per hour
 
         return time_elapsed
-
-    
-            
-            
-            
-                
-
-        
-    
-
-

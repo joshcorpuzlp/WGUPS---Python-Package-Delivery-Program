@@ -1,10 +1,8 @@
-from turtle import distance
+import csv
 from hash_map import HashMap
 from graph import Graph
-from load_trucks import load_truck
 from loading_process import LoadingProcess
 from package import Package
-import csv
 from truck import Truck
 
 # create a hashMap of packages
@@ -98,49 +96,45 @@ file_name = "wgups_distance_table.csv"
 load_distance_data(file_name)
 distanceGraph.print_edge_weights()
 
+# create the three trucks
 truck1 = Truck(1)
 truck2 = Truck(2)
 truck3 = Truck(3)
 
+# store trucks in a list
 trucks = [truck1, truck2, truck3]
 
+# pass the list of trucks as a parameter to create a loading process object
 loading_process = LoadingProcess(trucks)
+# load the trucks with the passed package_list
 trucks = loading_process.load_trucks(package_list)
 
-# result = truck1.load_truck(package_list)
-# print("\n")
-# result = truck2.load_truck(package_list, loaded_package_list=result)
-# print("\n")
-# result = truck3.load_truck(package_list, loaded_package_list=result)
 
-# print("\n")
-# print(truck1.container[1])
-
+# optimize truck1 and truck3's routes
+loading_process.nearest_neighbor(truck=truck1, distance_graph=distanceGraph)
 print('\n')
-print(truck1.container)
-
-print('\n')
-print(truck1.address_list)
-
-print('\n')
-print(truck2.container)
-
-print('\n')
-print(truck2.address_list)
+loading_process.nearest_neighbor(truck=truck3, distance_graph=distanceGraph)
 print('\n')
 
 
-print(truck3.container)
+# FIXING THE WRONG ADDRESS for PACKAGE_9 before optimizing truck2
+# retrieve package 9 from truck container and save it to a local variable
+print(truck2.get_package('9'))
+package_9 = truck2.get_package("9")
 
-print('\n')
-print(truck3.address_list)
-print('\n')
+# remove package 9 from truck container and address list
+truck2.remove_package(truck2.get_package('9'))
 
-loading_process.greedy_algorithm(truck = truck1, distance_graph = distanceGraph)
-print('\n')
-loading_process.greedy_algorithm(truck = truck2, distance_graph = distanceGraph)
-print('\n')
-loading_process.greedy_algorithm(truck = truck3, distance_graph = distanceGraph)
+# update its values
+package_9.set_address('410 S State St')
+package_9.set_city('Salt Lake City')
+package_9.set_zip('84111')
+
+# add package_9 to the container which will also add it to the address_list
+truck2.add_package(package_9)
+
+# Optimize truck2's route
+loading_process.nearest_neighbor(truck=truck2, distance_graph=distanceGraph)
 print('\n')
 
 print(truck1.miles_travelled)
@@ -153,9 +147,67 @@ print(truck1.miles_travelled)
 print(truck2.miles_travelled)
 print(truck3.miles_travelled)
 
-print(truck1.miles_travelled + truck2.miles_travelled +truck3.miles_travelled)
+print(truck1.miles_travelled + truck2.miles_travelled + truck3.miles_travelled)
 
+print('\n')
+print('Truck 1 summary')
 truck1.deliver_packages()
-print(truck1.container)
-print(truck1.route)
-print(truck1.get_miles_travelled_to_location("1330 2100 S"))
+print(truck1.start_time)
+print(truck1.end_time)
+
+print('\n')
+print('Truck 3 summary')
+truck3.deliver_packages()
+print(truck3.start_time)
+print(truck3.end_time)
+
+print('\n')
+print('Truck 2 summary')
+truck2.start_time = truck1.end_time
+truck2.deliver_packages()
+print(truck2.start_time)
+print(truck2.end_time)
+
+
+# print('\n')
+# print(truck2.get_miles_travelled_to_location("5383 South 900 East #104"))
+# print(truck2.convert_distance_to_time("HUB"))
+
+
+# print(truck2.convert_distance_to_time("5383 South 900"))
+# print(truck3.convert_distance_to_time("HUB"))
+
+
+# CHECKERS
+# result = truck1.load_truck(package_list)
+# print("\n")
+# result = truck2.load_truck(package_list, loaded_package_list=result)
+# print("\n")
+# result = truck3.load_truck(package_list, loaded_package_list=result)
+
+# print("\n")
+# print(truck1.container[1])
+
+# print('\n')
+# print(truck1.container)
+
+# print('\n')
+# print(truck1.address_list)
+
+# print('\n')
+# print(truck2.container)
+
+# print('\n')
+# print(truck2.address_list)
+# print('\n')
+
+
+# print(truck3.container)
+
+# print('\n')
+# print(truck3.address_list)
+# print('\n')
+
+# Checker
+# print(truck2.get_package('9'))
+# print('\n')
