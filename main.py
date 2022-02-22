@@ -1,25 +1,35 @@
 from collections import UserList
 import csv
 import datetime
+from unittest import skip
 from hash_map import HashMap
 from graph import Graph
 from loading_process import LoadingProcess
 from package import Package
 from truck import Truck
 
+def exit_program():
+    print("System exited, goodbye!")
+    SystemExit
 
 def wgups_routing_program():
-    print("Welcome to the WGUPS Routing Program")
-    print("Press: 1 to enter program")
-    print("Press: 0 to exit program")
-
+    packages_delivered = False
+    print("""
+    *****************************************
+    * Welcome to the WGUPS Routing Program! *
+    *****************************************
+    """)
+    print("Press: 1 - to enter program")
+    print("Press: 0 - to exit program")
     user_input = input("Input: ")
 
     if user_input == "1":
-
-        print("The time is 8:00 AM. What you would you like to do:?")
-        print("Press: 1 to assign packages to trucks")
-        print("Press: 0 to exit program")
+        print('\n')
+        print("""
+        --- The time is 8:00 AM. What you would you like to do? ---
+        """)
+        print("Press: 1 - to assign packages to trucks")
+        print("Press: 0 - to exit program")
         user_input = input("Input: ")
 
         if user_input == "1":
@@ -100,16 +110,23 @@ def wgups_routing_program():
 
             # pass the list of trucks as a parameter to create a loading process object
             loading_process = LoadingProcess(trucks)
+            print('\n')
             # load the trucks with the passed package_list
             trucks = loading_process.load_trucks(package_list)
-
-            print("Packages have been assigned to trucks! \n")
+            
+            # Message to note end of process
+            print("""
+            --- Packages have been assigned to trucks! ---
+            """)
 
             # OPTIMIZE? y/n
-            print('Would you like to optimize each the truck\'s route?')
+            print('\n')
+            print("""
+            --- Would you like to optimize each of the truck\'s routes? ---
+            """)
             print("Press: 1 to optimize truck routes")
             print("Press: 0 to exit program")
-            user_input == input("Input: ")
+            user_input = input("Input: ")
 
             if user_input == '1':
                 print('\n')
@@ -122,219 +139,273 @@ def wgups_routing_program():
                     truck=truck3, distance_graph=distance_graph)
 
                 print('Truck routes optimized!\n')
-            else:
-                print("System exited, goodbye!")
-                SystemExit
 
-            print('Would you like to deliver packges?')
-            print("Press: 1 to deliver packages")
-            print("Press: 0 to exit program")
-            user_input == input("Input: ")
-
-            if user_input == '1':
-
-                print('\n')
-                truck1.deliver_packages()
-                truck3.deliver_packages()
-
-                print('\n')
-                print("Corrected address for package 9 has been received\n")
-
-                print('Would you like to correct the address for package 9?')
-                print("Press: 1 to correct address for package 9")
+                #DELIVER PACKAGES PROMPT
+                print("""
+                --- Would you like to deliver packges? ---
+                """)
+                print("Press: 1 to deliver packages")
                 print("Press: 0 to exit program")
-                user_input == input("Input: ")
+                user_input = input("Input: ")
 
                 if user_input == '1':
+
                     print('\n')
-                    print('Correcting the address for package_9!\n')
-                    # FIXING THE WRONG ADDRESS for PACKAGE_9 before optimizing truck2
-                    # retrieve package 9 from truck container and save it to a local variable
-                    package_9 = truck2.get_package("9")
-                    # remove package 9 from truck's container and address_list
-                    truck2.remove_package(truck2.get_package('9'))
+                    truck1.deliver_packages()
+                    truck3.deliver_packages()
 
-                    # update package_9 values
-                    package_9.set_address('410 S State St')
-                    package_9.set_city('Salt Lake City')
-                    package_9.set_zip('84111')
+                    print('\n')
+                    print("""
+                    -- Corrected address for package 9 has been received at 10:20 AM! ---
+                    --- Would you like to correct the address for package 9? ---
+                    """)
 
-                    # add package_9 to the container and address_list
-                    truck2.add_package(package_9)
-                    print('Package 9 address corrected!\n')
-
-                    print('Would you like to optimize route for truck 2?')
-                    print("Press: 1 to optimize route for truck 2")
-                    print("Press: 0 to exit program")
-                    user_input == input("Input: ")
+                    print("Press: 1 - to correct address for package 9")
+                    print("Press: 0 - to exit program")
+                    user_input = input("Input: ")
 
                     if user_input == '1':
-                        # OPTIMIZE Route for Truck2 Y/N?
-                        # re-optimize truck2's route
-                        loading_process.nearest_neighbor(
-                            truck=truck2, distance_graph=distance_graph)
-                        # print truck 2's contents
-                        truck2.print_container_contents()
                         print('\n')
+                        print('Correcting the address for package_9...\n')
+                        
+                        # FIXING THE WRONG ADDRESS for PACKAGE_9 before optimizing truck2
+                        # retrieve package 9 from truck container and save it to a local variable
+                        package_9 = truck2.get_package("9")
+                        # remove package 9 from truck's container and address_list
+                        truck2.remove_package(truck2.get_package('9'))
 
-                        # DELIVER Truck 2 packages y/n?
-                        truck2.start_time = truck1.end_time
-                        truck2.deliver_packages()
+                        # update package_9 values
+                        package_9.set_address('410 S State St')
+                        package_9.set_city('Salt Lake City')
+                        package_9.set_zip('84111')
+
+                        # add package_9 to the container and address_list
+                        truck2.add_package(package_9)
+                        print("""
+                        --- Package 9 address corrected! ---
+                        """)
+
+                        # OPTIMIZE Route for Truck2 Y/N?
+                        print("""
+                        --- Would you like to optimize route for truck 2? ---
+                        """)
+                        print("Press: 1 to optimize route for truck 2")
+                        print("Press: 0 to exit program")
+                        user_input = input("Input: ")
+
+                        if user_input == '1':
+                            
+                            # re-optimize truck2's route
+                            loading_process.nearest_neighbor(
+                                truck=truck2, distance_graph=distance_graph)
+                            # print truck 2's contents
+
+                            print("""
+                            --- Would you like to view truck 2's package details? ---
+                            """)
+                            print("Press: 1 - to view packages for truck 2")
+                            print("Press: 0 - to skip")
+                            user_input = input("Input: ")
+                            
+                            # Skipped if the user enters 0
+                            if user_input == '1':
+                                truck2.print_container_contents()
+                                print('\n')
+                            else:
+                                print("")
+
+                            # DELIVER Truck 2 packages y/n?
+                            print("""
+                            --- Deliver Truck 2's packages? ---
+                            """)
+                            print("Press: 1 - Deliver Truck 2's packages?")
+                            print("Press: 0 - to exit program")
+                            user_input = input("Input: ")
+
+                            if user_input == '1':
+                                truck2.start_time = truck1.end_time
+                                truck2.deliver_packages()
+
+                                print("""
+                                *************************************
+                                * All packages have been delivered! *
+                                *************************************
+                                """)
+                                packages_delivered = True
+                            else:
+                                exit_program()
+                        else:
+                            exit_program()
                     else:
-                        print("System exited, goodbye!")
-                        SystemExit
-
+                        exit_program()
                 else:
-                    print("System exited, goodbye!")
-                    SystemExit
+                    exit_program()
             else:
-                print("System exited, goodbye!")
-                SystemExit
+                exit_program()
 
-            print("All packages have been delivered!\n")
+            # Checker will only run if packages have been delivered.
+            if packages_delivered == True:
+                # Would you like to look up the status at a specific time?
+                print("""
+                -- Would you like to look up the system status at a specific time? ---
+                """)
+                print("Press: 1 - to look up system status at a specific time")
+                print("Press: 0 - to exit system status lookup")
+                user_input = input("Input: ")
 
-            # Would you like to look up the status at a specific time?
-            print("Would you like to look up the system status at a specific time?")
-            print("Press: 1 to look up system status")
-            print("Press: 0 to continue")
-            user_input = input("Input: ")
+                while user_input == '1':
+                    if user_input == '1':
+                        print('Please input the time you would like to lookup:')
+                        input_hour = int(input('Hour (Enter hour values from 1-24): ' ))
+                        input_minute = int(input('Minutes (Enter values from 00-60): '))
+                        print('\n')
+                        print('Status of packages in trucks at:',
+                            input_hour, ':', input_minute)
+                        datetime_input = datetime.datetime(
+                            2022, 2, 21, hour=input_hour, minute=input_minute, second=00)
 
-            while user_input == '1':
+                        print('\n')
+                        print('Truck 1 Status:')
+                        truck1.get_all_packages_status_at_time(datetime_input)
+                        print('\n')
+                        print('Truck 2 Status:')
+                        truck2.get_all_packages_status_at_time(datetime_input)
+                        print('\n')
+                        print('Truck 3 Status:')
+                        truck3.get_all_packages_status_at_time(datetime_input)
+
+                        print(
+                            "Would you like to look up the system status at another specific time?")
+                        print("Press: 1 to look up another time")
+                        print("Press: 0 to exit lookup function")
+                        user_input = input("Input: ")
+                    else:
+                        print("System lookup function exited!")
+                        continue
+
+                # Would you like to print the summary for specific time requirements
+                print("""
+                --- Would you like to print the summary for specific time requirements:
+                    Status for a time between 8:35 a.m. and 9:25 a.m
+                    Status for a time between 9:35 a.m. and 10:25 a.m
+                    Status for a time between 12:03 p.m. and 1:12 p.m
+                """)
+                print("Press: 1 for Yes")
+                print("Press: 0 to exit program")
+                user_input = input("Input: ")
+
                 if user_input == '1':
-                    print('Please input the time you would like to lookup:')
-                    input_hour = int(input('Hour: '))
-                    input_minute = int(input('Minute: '))
+                    # SUMMARY FOR SPECIFIC PROJECT TIME REQUIREMENTS
                     print('\n')
-                    print('Status of packages in trucks at:',
-                          input_hour, ':', input_minute)
+                    print('Status of packages in trucks at: 09:10:00')
                     datetime_input = datetime.datetime(
-                        2022, 2, 21, hour=input_hour, minute=input_minute, second=00)
+                        2022, 2, 21, hour=9, minute=10, second=00)
 
                     print('\n')
-                    print('Truck 1 status')
+                    print('Truck 1 Status:')
                     truck1.get_all_packages_status_at_time(datetime_input)
                     print('\n')
-                    print('Truck 2 status')
+                    print('Truck 2 Status:')
                     truck2.get_all_packages_status_at_time(datetime_input)
                     print('\n')
-                    print('Truck 3 status')
+                    print('Truck 3 Status:')
                     truck3.get_all_packages_status_at_time(datetime_input)
 
-                    print(
-                        "Would you like to look up the system status at another specific time?")
-                    print("Press: 1 to look up another time")
-                    print("Press: 0 to continue")
-                    user_input = input("Input: ")
+                    print('\n')
+                    print('Status of packages in trucks at: 10:15:00')
+                    datetime_input = datetime.datetime(
+                        2022, 2, 21, hour=10, minute=15, second=00)
+
+                    print('\n')
+                    print('Truck 1 Status:')
+                    truck1.get_all_packages_status_at_time(datetime_input)
+                    print('\n')
+                    print('Truck 2 Status:')
+                    truck2.get_all_packages_status_at_time(datetime_input)
+                    print('\n')
+                    print('Truck 3 Status:')
+                    truck3.get_all_packages_status_at_time(datetime_input)
+
+                    print('\n')
+                    print('Status of packages in trucks at: 12:30:00')
+                    datetime_input = datetime.datetime(
+                        2022, 2, 21, hour=12, minute=30, second=00)
+
+                    print('\n')
+                    print('Truck 1 Status:')
+                    truck1.get_all_packages_status_at_time(datetime_input)
+                    print('\n')
+                    print('Truck 2 Status:')
+                    truck2.get_all_packages_status_at_time(datetime_input)
+                    print('\n')
+                    print('Truck 3 Status:')
+                    truck3.get_all_packages_status_at_time(datetime_input)
+
                 else:
-                    print("System lookup function exited!")
-                    continue
-
-            # Would you like to print the summary for specific time requirements
-            print("Would you like to print the summary for specific time requirements")
-            print("Press: 1 for Yes")
-            print("Press: 0 to exit program")
-            user_input = input("Input: ")
-
-            if user_input == '1':
-                # SUMMARY FOR SPECIFIC PROJECT TIME REQUIREMENTS
-                print('\n')
-                print('Status of packages in trucks at: 09:10:00')
-                datetime_input = datetime.datetime(
-                    2022, 2, 21, hour=9, minute=10, second=00)
+                    print("Program time lookup exited")
+                    SystemExit
 
                 print('\n')
-                print('Truck 1 status')
-                truck1.get_all_packages_status_at_time(datetime_input)
-                print('\n')
-                print('Truck 2 status')
-                truck2.get_all_packages_status_at_time(datetime_input)
-                print('\n')
-                print('Truck 3 status')
-                truck3.get_all_packages_status_at_time(datetime_input)
 
-                print('\n')
-                print('Status of packages in trucks at: 10:15:00')
-                datetime_input = datetime.datetime(
-                    2022, 2, 21, hour=10, minute=15, second=00)
+                # Would you like to look to print the system summary?
+                print("""
+                *******************************************************
+                * Would you like to look to print the system summary? *
+                *******************************************************
+                """)
+                print("Press: 1 to print system summary")
+                print("Press: 0 to exit program")
+                user_input = input("Input: ")
 
-                print('\n')
-                print('Truck 1 status')
-                truck1.get_all_packages_status_at_time(datetime_input)
-                print('\n')
-                print('Truck 2 status')
-                truck2.get_all_packages_status_at_time(datetime_input)
-                print('\n')
-                print('Truck 3 status')
-                truck3.get_all_packages_status_at_time(datetime_input)
+                if user_input == '1':
+                    print('\n')
 
-                print('\n')
-                print('Status of packages in trucks at: 12:30:00')
-                datetime_input = datetime.datetime(
-                    2022, 2, 21, hour=12, minute=30, second=00)
+                    # calcualtes the total miles traveled for each truck.
+                    truck1.calculate_miles_traveled()
+                    truck2.calculate_miles_traveled()
+                    truck3.calculate_miles_traveled()
 
-                print('\n')
-                print('Truck 1 status')
-                truck1.get_all_packages_status_at_time(datetime_input)
-                print('\n')
-                print('Truck 2 status')
-                truck2.get_all_packages_status_at_time(datetime_input)
-                print('\n')
-                print('Truck 3 status')
-                truck3.get_all_packages_status_at_time(datetime_input)
+                    print("""
+                    *******************
+                    * PROGRAM SUMMARY *
+                    *******************
+                    """)
+                    print('Truck 1 Summary:')
+                    print('Start:', truck1.start_time)
+                    print('End:', truck1.end_time)
+                    print("Truck 1 travelled:", truck1.miles_traveled, "miles")
 
+                    print('\n')
+                    print('Truck 2 Summary:')
+                    truck2.start_time = truck1.end_time
+                    print('Start:', truck2.start_time)
+                    print('End:', truck2.end_time)
+                    print("Truck 3 travelled:", truck3.miles_traveled, "miles")
+
+                    print('\n')
+                    print('Truck 3 Summary:')
+                    print('Start:', truck3.start_time)
+                    print('End:', truck3.end_time)
+                    print("Truck 2 travelled:", truck2.miles_traveled, "miles")
+
+                    # aggregates the total miles traveled by all three trucks
+                    total_miles_traveled = truck1.miles_traveled + truck2.miles_traveled + truck3.miles_traveled
+                    summary_message = '''\
+                    ***********************
+                    * TOTAL MILES TRAVLED: {miles} *
+                    ***********************\
+                    '''.format(miles = total_miles_traveled)
+                    
+                    print(summary_message)
+                else:
+                    exit_program()
             else:
-                print("System exited, goodbye!")
                 SystemExit
-
-            print('\n')
-            print('\n')
-            print('\n')
-
-            # Would you like to look to print the system summary?
-            print("Would you like to look to print the system summary?")
-            print("Press: 1 to print system summary")
-            print("Press: 0 to exit program")
-            user_input = input("Input: ")
-
-            if user_input == '1':
-                print('\n')
-
-                truck1.calculate_miles_traveled()
-                truck2.calculate_miles_traveled()
-                truck3.calculate_miles_traveled()
-
-                print('Truck 1 summary')
-                print('Start:', truck1.start_time)
-                print('End:', truck1.end_time)
-                print("Truck 1 travelled:", truck1.miles_traveled, "miles")
-
-                print('\n')
-                print('Truck 2 summary')
-                truck2.start_time = truck1.end_time
-                print('Start:', truck2.start_time)
-                print('End:', truck2.end_time)
-                print("Truck 3 travelled:", truck3.miles_traveled, "miles")
-
-                print('\n')
-                print('Truck 3 summary')
-                print('Start:', truck3.start_time)
-                print('End:', truck3.end_time)
-                print("Truck 2 travelled:", truck2.miles_traveled, "miles")
-
-                print('\n')
-                print("Total miles travelled:", truck1.miles_traveled +
-                      truck2.miles_traveled + truck3.miles_traveled, "miles")
-            else:
-                print("System exited, goodbye!")
-                SystemExit
-
         else:
-            print("System exited, goodbyte")
-            SystemExit
-
+            exit_program()
+    
     else:
-        print("System exited, goodbye!")
-        SystemExit
+        exit_program()
 
 
 if __name__ == "__main__":

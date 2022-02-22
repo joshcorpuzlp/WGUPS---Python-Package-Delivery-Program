@@ -148,7 +148,7 @@ class Truck:
 
         # checker
         for package in self.container:
-            print(f'Id: {package.id}, Address: {package.get_full_address()}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
+            print(f'Id: {package.id}, Address: {package.get_full_address()}, Miles Traveled: {package.miles_traveled:.2f}, Scheduled Delivery Date and Time: {package.datetime_delivered}')
 
         return loaded_packages
 
@@ -211,17 +211,23 @@ class Truck:
         for package in container:
             if datetime_input <= self.start_time or None:
                 package.status = "AT HUB"
+                show_datetime_as = datetime.datetime(
+            2022, 2, 21, hour=0, minute=0, second=0)
             if datetime_input > self.start_time and datetime_input < package.datetime_delivered:
                 package.status = "EN ROUTE"
             if datetime_input >= package.datetime_delivered:
                 package.status = "DELIVERED"
 
         for package in container:
-            print(
-                f'Package Id: {package.id}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
+            if datetime_input <= self.start_time or None:
+                print(
+                    f'Package Id: {package.id}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Scheduled Delivery Date and Time: {show_datetime_as}')
+            else:
+                print(
+                    f'Package Id: {package.id}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Scheduled Delivery Date and Time: {package.datetime_delivered}')
 
     def print_container_contents(self):
-        print(f"Truck #{self.truck_id}")
+        print(f"Truck #{self.truck_id} Packages")
         for package in self.container:
             print(package.id, package.address,
                   package.delivery_deadline, "---", package.notes)

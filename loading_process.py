@@ -74,19 +74,19 @@ class LoadingProcess():
                         is_package_loaded = True
 
         # checkers
-        print("Truck #1")
+        print("Truck #1 Packages:")
         for package in self.trucks[0].container:
             print(package.id, package.address,
                   package.delivery_deadline, "---", package.notes)
         print('\n')
 
-        print("Truck #2")
+        print("Truck #2 Packages:")
         for package in self.trucks[1].container:
             print(package.id, package.address,
                   package.delivery_deadline, "---", package.notes)
         print('\n')
 
-        print("Truck #3")
+        print("Truck #3 Packages:")
         for package in self.trucks[2].container:
             print(package.id, package.address,
                   package.delivery_deadline, "---", package.notes)
