@@ -8,9 +8,11 @@ from loading_process import LoadingProcess
 from package import Package
 from truck import Truck
 
+
 def exit_program():
     print("System exited, goodbye!")
     SystemExit
+
 
 def wgups_routing_program():
     packages_delivered = False
@@ -113,7 +115,7 @@ def wgups_routing_program():
             print('\n')
             # load the trucks with the passed package_list
             trucks = loading_process.load_trucks(package_list)
-            
+
             # Message to note end of process
             print("""
             --- Packages have been assigned to trucks! ---
@@ -140,7 +142,7 @@ def wgups_routing_program():
 
                 print('Truck routes optimized!\n')
 
-                #DELIVER PACKAGES PROMPT
+                # DELIVER PACKAGES PROMPT
                 print("""
                 --- Would you like to deliver packges? ---
                 """)
@@ -167,7 +169,7 @@ def wgups_routing_program():
                     if user_input == '1':
                         print('\n')
                         print('Correcting the address for package_9...\n')
-                        
+
                         # FIXING THE WRONG ADDRESS for PACKAGE_9 before optimizing truck2
                         # retrieve package 9 from truck container and save it to a local variable
                         package_9 = truck2.get_package("9")
@@ -194,7 +196,7 @@ def wgups_routing_program():
                         user_input = input("Input: ")
 
                         if user_input == '1':
-                            
+
                             # re-optimize truck2's route
                             loading_process.nearest_neighbor(
                                 truck=truck2, distance_graph=distance_graph)
@@ -206,7 +208,7 @@ def wgups_routing_program():
                             print("Press: 1 - to view packages for truck 2")
                             print("Press: 0 - to skip")
                             user_input = input("Input: ")
-                            
+
                             # Skipped if the user enters 0
                             if user_input == '1':
                                 truck2.print_container_contents()
@@ -256,11 +258,13 @@ def wgups_routing_program():
                 while user_input == '1':
                     if user_input == '1':
                         print('Please input the time you would like to lookup:')
-                        input_hour = int(input('Hour (Enter hour values from 1-24): ' ))
-                        input_minute = int(input('Minutes (Enter values from 00-60): '))
+                        input_hour = int(
+                            input('Hour (Enter hour values from 1-24): '))
+                        input_minute = int(
+                            input('Minutes (Enter values from 00-60): '))
                         print('\n')
                         print('Status of packages in trucks at:',
-                            input_hour, ':', input_minute)
+                              input_hour, ':', input_minute)
                         datetime_input = datetime.datetime(
                             2022, 2, 21, hour=input_hour, minute=input_minute, second=00)
 
@@ -389,13 +393,14 @@ def wgups_routing_program():
                     print("Truck 2 travelled:", truck2.miles_traveled, "miles")
 
                     # aggregates the total miles traveled by all three trucks
-                    total_miles_traveled = truck1.miles_traveled + truck2.miles_traveled + truck3.miles_traveled
+                    total_miles_traveled = truck1.miles_traveled + \
+                        truck2.miles_traveled + truck3.miles_traveled
                     summary_message = '''\
-                    ***********************
-                    * TOTAL MILES TRAVLED: {miles} *
-                    ***********************\
-                    '''.format(miles = total_miles_traveled)
-                    
+                    *********************************
+                    * TOTAL MILES TRAVELED: {miles} *
+                    *********************************\
+                    '''.format(miles=total_miles_traveled)
+
                     print(summary_message)
                 else:
                     exit_program()
@@ -403,7 +408,7 @@ def wgups_routing_program():
                 SystemExit
         else:
             exit_program()
-    
+
     else:
         exit_program()
 
