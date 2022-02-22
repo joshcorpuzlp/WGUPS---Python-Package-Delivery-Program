@@ -212,7 +212,7 @@ class Truck:
             if datetime_input <= self.start_time or None:
                 package.status = "AT HUB"
                 show_datetime_as = datetime.datetime(
-            2022, 2, 21, hour=0, minute=0, second=0)
+                    2022, 2, 21, hour=0, minute=0, second=0)
             if datetime_input > self.start_time and datetime_input < package.datetime_delivered:
                 package.status = "EN ROUTE"
             if datetime_input >= package.datetime_delivered:
