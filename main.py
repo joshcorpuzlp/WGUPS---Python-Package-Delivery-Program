@@ -16,6 +16,7 @@ def exit_program():
 
 def wgups_routing_program():
     packages_delivered = False
+    
     print("""
     *****************************************
     * Welcome to the WGUPS Routing Program! *
@@ -25,10 +26,128 @@ def wgups_routing_program():
     print("Press: 0 - to exit program")
     user_input = input("Input: ")
 
+    # create a hashMap of packages
+    package_list = HashMap(64)
+
+    # create a list of all the addresses
+    address_list = []
+
+    # create a function to load package data into a hash table
+    def load_package_data(file_name):
+
+        # read data from wgups_package_file.csv
+        with open(file_name) as file:
+            reader = csv.reader(file)
+            package_data = list(reader)
+
+            # create a package object using each row of from package_list
+            # skipped the first row of headers
+            for i in range(1, len(package_data)):
+                current_package = Package()
+                current_package.id = package_data[i][0]
+                current_package.address = package_data[i][1]
+                current_package.city = package_data[i][2]
+                current_package.state = package_data[i][3]
+                current_package.zip = package_data[i][4]
+                current_package.delivery_deadline = package_data[i][5]
+                current_package.mass_kg = package_data[i][6]
+                current_package.notes = package_data[i][7]
+                current_package.status = "AT_HUB"
+
+                # add the package object in the list
+                package_list.insert(
+                    current_package.id, current_package)
+
+                # store all the addresses in a list
+                address_list.append(current_package.address)
+
+    # create a method to load data from wgups_distance_table.csv into graph
+    def load_distance_data(file_name):
+        rows = []
+        with open(file_name) as file:
+            reader = csv.reader(file)
+            next(reader)
+            for row in reader:
+                rows.append(row)
+
+        # load the addresses to the vertex list
+        for row in rows:
+            distance_graph.add_vertex(row[0])
+
+        # # load contents for adjacency list
+        for i in range(len(distance_graph.vertex_list)):
+            for j in range(len(distance_graph.vertex_list)):
+                distance_graph.add_edge_weights(
+                    distance_graph.vertex_list[i], distance_graph.vertex_list[j], rows[i][j+1])
+
+    # call the load_package_data to store the csv data into the declared hashmap
+    load_package_data("wgups_package_file.csv")
+
+    # Create a Graph object
+    distance_graph = Graph()
+
+    # load distance data from csv
+    file_name = "wgups_distance_table.csv"
+
+    # call function
+    load_distance_data(file_name)
+
+    # create the three trucks
+    truck1 = Truck(1)
+    truck2 = Truck(2)
+    truck3 = Truck(3)
+
+    # store trucks in a list
+    trucks = [truck1, truck2, truck3]
+    
+    print("""
+    ************************************************************
+    * Package data loaded!                                     *
+    * Distance data loaded!                                    *
+    *                                                          *
+    *  - The time is 8:00 AM. What you would you like to do? - *
+    * Would you like to view the details of all the packages?  *
+    ************************************************************
+    """)
+    print("Press: 1 - to skip and continue with the program")
+    print("Press: 2 - to view package details")
+    print("Press: 0 - to exit program")
+    user_input = input("Input: ")
+
+    while user_input == '2':
+        print("""
+        *************************************************************************
+        *                                                                       *
+        * Reminder: All packages are either at the hub or on its way to the hub *
+        *                                                                       *
+        *************************************************************************
+        """)
+        user_input_2 = input("Enter the package id # for the package that you would like to view: ")
+
+        package_result = package_list.search(user_input_2)
+
+        print(f""" 
+        Package Details: {package_result}
+        """)
+
+
+        print("""
+        ****************************************************
+        *                                                   *
+        * Would you like to view another package's details? *
+        *                                                   *
+        ****************************************************
+        """)
+        print("Press: 1 - to continue with the program")
+        print("Press: 2 - to view another package's details")
+        print("Press: 0 - to exit program")
+        user_input = input("Input: ")
+
+
     if user_input == "1":
         print('\n')
         print("""
-        --- The time is 8:00 AM. What you would you like to do? ---
+        --- Assign packages to trucks? ---
         """)
         print("Press: 1 - to assign packages to trucks")
         print("Press: 0 - to exit program")
@@ -36,79 +155,7 @@ def wgups_routing_program():
 
         if user_input == "1":
 
-            # create a hashMap of packages
-            package_list = HashMap(64)
-
-            # create a list of all the addresses
-            address_list = []
-
-            # create a function to load package data into a hash table
-            def load_package_data(file_name):
-
-                # read data from wgups_package_file.csv
-                with open(file_name) as file:
-                    reader = csv.reader(file)
-                    package_data = list(reader)
-
-                    # create a package object using each row of from package_list
-                    # skipped the first row of headers
-                    for i in range(1, len(package_data)):
-                        current_package = Package()
-                        current_package.id = package_data[i][0]
-                        current_package.address = package_data[i][1]
-                        current_package.city = package_data[i][2]
-                        current_package.state = package_data[i][3]
-                        current_package.zip = package_data[i][4]
-                        current_package.delivery_deadline = package_data[i][5]
-                        current_package.mass_kg = package_data[i][6]
-                        current_package.notes = package_data[i][7]
-                        current_package.status = "AT_HUB"
-
-                        # add the package object in the list
-                        package_list.insert(
-                            current_package.id, current_package)
-
-                        # store all the addresses in a list
-                        address_list.append(current_package.address)
-
-            # call the load_package_data to store the csv data into the declared hashmap
-            load_package_data("wgups_package_file.csv")
-
-            # Create a Graph object
-            distance_graph = Graph()
-
-            # create a method to load data from wgups_distance_table.csv into graph
-            def load_distance_data(file_name):
-                rows = []
-                with open(file_name) as file:
-                    reader = csv.reader(file)
-                    next(reader)
-                    for row in reader:
-                        rows.append(row)
-
-                # load the addresses to the vertex list
-                for row in rows:
-                    distance_graph.add_vertex(row[0])
-
-                # # load contents for adjacency list
-                for i in range(len(distance_graph.vertex_list)):
-                    for j in range(len(distance_graph.vertex_list)):
-                        distance_graph.add_edge_weights(
-                            distance_graph.vertex_list[i], distance_graph.vertex_list[j], rows[i][j+1])
-
-            # load distance data from csv
-            file_name = "wgups_distance_table.csv"
-
-            # call function
-            load_distance_data(file_name)
-
-            # create the three trucks
-            truck1 = Truck(1)
-            truck2 = Truck(2)
-            truck3 = Truck(3)
-
-            # store trucks in a list
-            trucks = [truck1, truck2, truck3]
+           
 
             # pass the list of trucks as a parameter to create a loading process object
             loading_process = LoadingProcess(trucks)
@@ -408,6 +455,7 @@ def wgups_routing_program():
                 SystemExit
         else:
             exit_program()
+    
 
     else:
         exit_program()
