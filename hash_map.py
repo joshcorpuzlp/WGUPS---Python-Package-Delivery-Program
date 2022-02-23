@@ -1,4 +1,5 @@
-# Hash_map will be used for storing all the package objects
+# This hashmap is a data structure built from scratch without the use of dictionaries
+# It will be used for storing all the package objects
 
 class HashMap():
     def __init__(self, size):
@@ -6,68 +7,41 @@ class HashMap():
         self.hash_table = self.create_buckets()
         self.item_counter = 0
 
+    #creates the number of hash 'containers' or 'buckets' that will hold the values
     def create_buckets(self):
         return [[] for _ in range(self.size)]
 
-    # The hash key is calculated by the sum of the char values of the key % the size of the hashmap
-    def __getHashKey(self, key):
-        hash_key = 0
-        for char in key:
-            hash_key += ord(char)
-
-        return hash_key % self.size
-
-    # method inserts a key value pair to the hashmap
-    def insert(self, key, value):
-
-        # Create the hash_key from from passed key
-        hash_key = self.__getHashKey(key)
-
-        # Check if hash_table is not empty,
-        if (self.hash_table[hash_key]):
-
-            # loop through the contents at that specific hash_table, check the passed key if it matches any of the stored keys
-            # if it matches, update the value with the passed value
-            # if it does not match, append
-            for pair in self.hash_table[hash_key]:
-                if pair[0] == key:
-                    pair[1] = value
-                    return True
-                else:
-                    self.hash_table[hash_key].append([key, value])
-
-        # if the hash_key is empty, add the key value pair into that list
-        else:
-            self.hash_table[hash_key].append([key, value])
-
-        # add 1 to counter
-        self.item_counter += 1
-
     # creates a hash key by converting the id (string) to an integer
-    def __convert_id_to_hash_key(self, key):
+    def create_hash_key(self, key):
         return int(key)
 
-    # same logic as insert but instead of creating the hash_key function, it just uses the package id as the hash_function
-    def insert_by_id(self, key, value):
-        hash_key = self.__convert_id_to_hash_key(key)
+    # Inserts the given value to the hash table at the given key
+    # uses the create_hash_key method to create the index where the values will be stored\
+    # O(n)
+    def insert(self, key, value):
+        hash_key = self.create_hash_key(key)
 
+        # If the bucket is not empty
         if (self.hash_table[hash_key]):
             for pair in self.hash_table[hash_key]:
+                #if the passed key matches the current key, then we should update the value
                 if pair[0] == hash_key:
                     pair[1] = value
                     return True
+                #if the passed key does not match the current key, then we should append the value
                 else:
                     self.hash_table[hash_key].append([key, value])
+        # Else, add the key value pair into the empty bucket
         else:
             self.hash_table[hash_key].append([key, value])
 
         # add 1 to counter
         self.item_counter += 1
 
-    # Method removes an item from th hashmap
-
+    # Function removes an item from the hashmap based on the passed key
+    # O(n)
     def remove(self, key):
-        hash_key = self.__convert_id_to_hash_key(key)
+        hash_key = self.create_hash_key(key)
         if not self.hash_table[hash_key]:
             return False
         else:
@@ -79,8 +53,10 @@ class HashMap():
                     self.item_counter -= 1
                     return True
 
+    # Function searches and returns an item from the hashmap based on the passed key
+    # O(n)
     def search(self, key):
-        hash_key = self.__getHashKey(key)
+        hash_key = self.create_hash_key(key)
         if not self.hash_table[hash_key]:
             return None
         else:
@@ -90,26 +66,9 @@ class HashMap():
 
             return None
 
-    def search_by_id(self, key):
-        hash_key = self.__convert_id_to_hash_key(key)
-        if not self.hash_table[hash_key]:
-            return None
-        else:
-            for pair in self.hash_table[hash_key]:
-                if pair[0] == key:
-                    return pair[1]
-
-            return None
-
-    # # does not work
-    # def searchByIndex(self, index):
-    #     if self.hash_table[index]:
-    #         for pair in self.hash_table[index]:
-    #             return pair[1]
-    #     else:
-    #         pass
-
-    # prints all items within the hashtable
+    # Function prints all items within the hashtable
+    # Used mainly during the development process to review data
+    # O(n^2)
     def print_all_items(self):
         for bucket in self.hash_table:
             for kvp in bucket:

@@ -18,7 +18,7 @@ class LoadingProcess():
         is_package_loaded = False
 
         for i in range(1, package_list.item_counter + 1):
-            package = package_list.search_by_id(f"{i}")
+            package = package_list.search(f"{i}")
             is_package_loaded = False
 
             if package in loaded_packages:
@@ -73,7 +73,7 @@ class LoadingProcess():
                         self.trucks[1].add_package(package)
                         is_package_loaded = True
 
-        # checkers
+        # Checkers used for reviewing data
         print("Truck #1 Packages:")
         for package in self.trucks[0].container:
             print(package.id, package.address,
@@ -94,8 +94,9 @@ class LoadingProcess():
 
         return self.trucks
 
-    # algorithm used to sort the truck's packages into a route
+    # Nearest neighbor algorithm used to sort the truck's packages into a route
     # uses the nearest neighbor algorithm to create an optimal route for each truck
+    # O(n^2)
     def nearest_neighbor(self, truck, distance_graph):
         min_distance = 99999.99
         nearest_neighbor = []

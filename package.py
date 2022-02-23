@@ -1,6 +1,5 @@
-from turtle import update
-import datetime
-
+# Package class used to represent a package and store its details
+# Package class also contain methods that allow for its properties to be accessed.
 
 class Package():
     def __init__(self):

@@ -1,4 +1,6 @@
-# the truck will be used as the container for packages
+# Truck class used to represent a package and store its details
+# Truck class also contain methods that allow for its properties to be accessed.
+
 from package import Package
 import datetime
 
@@ -16,7 +18,6 @@ class Truck:
         self.start_time = datetime.datetime(
             2022, 2, 21, hour=8, minute=0, second=0)
         self.end_time = None
-        self.is_truck_optimized = False
 
     def add_package(self, package):
         self.container.append(package)
@@ -56,104 +57,8 @@ class Truck:
     def __remove_from_address_list(self, package):
         self.address_list.remove(package.address)
 
-    def optimize(self):
-        if (len(self.address_list) == 0 and len(self.route) > 0):
-            self.is_truck_optimized = True
-            return self.is_truck_optimized
-        else:
-            self.is_optimized = False
-            return self.is_truck_optimized
-
-    def load_truck(self, package_list, loaded_package_list=[]):
-        loaded_packages = loaded_package_list
-        package = Package()
-
-    # create a list of all addresses
-    # determine which truck is passed
-
-        if self.truck_id == 1:
-            for i in range(1, package_list.item_counter + 1):
-                package = package_list.search_by_id(f"{i}")
-                if package in loaded_packages:
-                    pass
-                else:
-                    if len(self.container) < 16:
-                        # conditions to load into truck 1
-                        if (package.delivery_deadline == "9:00 AM"):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 1"
-                            self.add_package(package)
-
-                        if (package.delivery_deadline == "10:30 AM" and package.notes != "" and package.notes != "Wrong Address listed" and package.notes != "Delayed on flight---will not arrive to depot until 9:05 am"):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 1"
-                            self.add_package(package)
-
-                        if (package.delivery_deadline == "10:30 AM" and package.notes == ""):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 1"
-                            self.add_package(package)
-
-                        if (len(self.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 1"
-                            self.add_package(package)
-
-        if self.truck_id == 2:
-            for i in range(1, package_list.item_counter + 1):
-                package = Package()
-                package = package_list.search_by_id(f"{i}")
-                if package in loaded_packages:
-                    pass
-                else:
-                    if len(self.container) < 16:
-                        # conditions to load into truck 2
-                        if (package.delivery_deadline == "10:30 AM" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 2"
-                            self.add_package(package)
-
-                        if (package.delivery_deadline == "EOD" and package.notes == "Delayed on flight---will not arrive to depot until 9:05 am"):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 2"
-                            self.add_package(package)
-
-                        if (package.delivery_deadline == "EOD" and package.notes == "Wrong address listed"):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 2"
-                            self.add_package(package)
-
-                        if (package.delivery_deadline == "EOD" and package.notes == "Can only be on truck 2"):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 2"
-                            self.add_package(package)
-
-                        if (len(self.container) < 16 and package.delivery_deadline == "EOD" and package.notes == ""):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 2"
-                            self.add_package(package)
-
-        if self.truck_id == 3:
-            for i in range(1, package_list.item_counter + 1):
-                package = Package()
-                package = package_list.search_by_id(f"{i}")
-                if package in loaded_packages:
-                    pass
-                else:
-                    if len(self.container) < 16:
-                        if (len(self.container) < 16):
-                            loaded_packages.append(package)
-                            package.status = "LOADED ON TRUCK 3"
-                            self.add_package(package)
-
-        # checker
-        for package in self.container:
-            print(f'Id: {package.id}, Address: {package.get_full_address()}, Miles Traveled: {package.miles_traveled:.2f}, Scheduled Delivery Date and Time: {package.datetime_delivered}')
-
-        return loaded_packages
-
-    # marks each package in the truck.container as delivered if the package has the same address as the current location
-
+    # Function delivers packages by marking each package in the truck.container as delivered if the package has the same address as the current location
+    # O(n^2)
     def deliver_packages(self):
         route = self.route
         container = self.container
@@ -182,7 +87,8 @@ class Truck:
             print(
                 f'Package Id: {package.id}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
 
-    # calculate the miles travelled to get to that location
+    # Function calculate the miles travelled to get to that location
+    # O(n)
     def get_miles_traveled_to_location(self, address_to_get_to):
         distance_to_location = 0.00
         current_address = 'HUB'
@@ -197,7 +103,7 @@ class Truck:
                 continue
         # return distance_to_location
 
-    # calcualtes time_elapsed to get to the given address
+    # Function calcualtes time_elapsed to get to the given address
     def convert_distance_to_time(self, address_to_get_to):
         miles_traveled = self.get_miles_traveled_to_location(
             address_to_get_to)
@@ -205,6 +111,9 @@ class Truck:
 
         return time_elapsed
 
+    
+    # Function that returns all the package and details at the given time
+    # O(n)
     def get_all_packages_status_at_time(self, datetime_input):
         container = self.container
 
@@ -226,6 +135,8 @@ class Truck:
                 print(
                     f'Package Id: {package.id}, Status: {package.status}, Miles Traveled: {package.miles_traveled:.2f}, Scheduled Delivery Date and Time: {package.datetime_delivered}')
 
+    # Function prints all the contents of the truck's container
+    # O(n)
     def print_container_contents(self):
         print(f"Truck #{self.truck_id} Packages")
         for package in self.container:

@@ -65,7 +65,7 @@ def wgups_routing_program():
                         current_package.status = "AT_HUB"
 
                         # add the package object in the list
-                        package_list.insert_by_id(
+                        package_list.insert(
                             current_package.id, current_package)
 
                         # store all the addresses in a list
@@ -91,10 +91,10 @@ def wgups_routing_program():
                     distance_graph.add_vertex(row[0])
 
                 # # load contents for adjacency list
-                for i in range(len(distance_graph.vertex_list_a)):
-                    for j in range(len(distance_graph.vertex_list_a)):
+                for i in range(len(distance_graph.vertex_list)):
+                    for j in range(len(distance_graph.vertex_list)):
                         distance_graph.add_edge_weights(
-                            distance_graph.vertex_list_a[i], distance_graph.vertex_list_a[j], rows[i][j+1])
+                            distance_graph.vertex_list[i], distance_graph.vertex_list[j], rows[i][j+1])
 
             # load distance data from csv
             file_name = "wgups_distance_table.csv"
