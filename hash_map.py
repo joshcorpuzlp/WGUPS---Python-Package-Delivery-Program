@@ -1,3 +1,10 @@
+# -- INFO ---------------
+# First Name: Joshua
+# Last Name: Corpuz
+# Student id#: 001196484
+# -- INFO ---------------
+
+# NOTES
 # This hashmap is a data structure built from scratch without the use of dictionaries
 # It will be used for storing all the package objects
 
@@ -7,7 +14,7 @@ class HashMap():
         self.hash_table = self.create_buckets()
         self.item_counter = 0
 
-    #creates the number of hash 'containers' or 'buckets' that will hold the values
+    # creates the number of hash 'containers' or 'buckets' that will hold the values
     def create_buckets(self):
         return [[] for _ in range(self.size)]
 
@@ -24,11 +31,11 @@ class HashMap():
         # If the bucket is not empty
         if (self.hash_table[hash_key]):
             for pair in self.hash_table[hash_key]:
-                #if the passed key matches the current key, then we should update the value
+                # if the passed key matches the current key, then we should update the value
                 if pair[0] == hash_key:
                     pair[1] = value
                     return True
-                #if the passed key does not match the current key, then we should append the value
+                # if the passed key does not match the current key, then we should append the value
                 else:
                     self.hash_table[hash_key].append([key, value])
         # Else, add the key value pair into the empty bucket

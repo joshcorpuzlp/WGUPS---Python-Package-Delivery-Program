@@ -1,3 +1,10 @@
+# -- INFO ---------------
+# First Name: Joshua
+# Last Name: Corpuz
+# Student id#: 001196484
+# -- INFO ---------------
+
+# NOTES
 # Graph class will represent the matrix table of distance tables
 # it needs to have a list of vertices: Address
 # it will have a dictionary of {address_a: [address_b, weight], [address_b, weight], .... }
@@ -18,7 +25,7 @@ class Graph():
             self.vertex_list.append(vertex)
         else:
             print("Vertex: ", vertex, " is in the vertex list already")
-    
+
     # Function adds an edge weight for the given vertex_a, vertex_b
     # O(n)
     def add_edge_weights(self, vertex_a, vertex_b, weight):
@@ -64,10 +71,10 @@ class Graph():
             if location[0] == vertex_b:
                 return [location[1], vertex_b]
 
-        
     # Functions returns all the data in the graph
     # used mostly as a checker to review data
     # O(n)
+
     def get_graph(self):
         for node in (self.edge_weights):
             print(node, "--->", [i for i in self.edge_weights[node]], "\n")

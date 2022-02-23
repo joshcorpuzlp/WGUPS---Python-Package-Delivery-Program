@@ -1,3 +1,10 @@
+# -- INFO ---------------
+# First Name: Joshua
+# Last Name: Corpuz
+# Student id#: 001196484
+# -- INFO ---------------
+
+# NOTES
 # Package class used to represent a package and store its details
 # Package class also contain methods that allow for its properties to be accessed.
 
@@ -18,7 +25,7 @@ class Package():
         self.end_time = None
 
     def __repr__(self):
-        return "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (self.id, self.address, self.city, self.state, self.zip, self.delivery_deadline, self.mass_kg, self.status, self.notes)
+        return "ID: %s, Address: %s %s, %s %s, Deadline: %s, Mass (Kg): %s, Status: %s, Notes: %s" % (self.id, self.address, self.city, self.state, self.zip, self.delivery_deadline, self.mass_kg, self.status, self.notes)
 
     def printPackageDetails(self):
         print(f'Id: {self.package_id} - Address: {self.package_address} {self.package_city}, {self.package_state} {self.package_zip}')

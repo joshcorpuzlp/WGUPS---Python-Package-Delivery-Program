@@ -1,3 +1,10 @@
+# -- INFO ---------------
+# First Name: Joshua
+# Last Name: Corpuz
+# Student id#: 001196484
+# -- INFO ---------------
+
+# NOTES
 # Truck class used to represent a package and store its details
 # Truck class also contain methods that allow for its properties to be accessed.
 
@@ -83,6 +90,7 @@ class Truck:
         total_time_delta = datetime.timedelta(hours=time_elapsed)
         self.end_time = self.start_time + total_time_delta
 
+        print(f'Packages for Truck {self.truck_id}:')
         for package in container:
             print(
                 f'Package Id: {package.id}, Miles Traveled: {package.miles_traveled:.2f}, Date and Time Delivered: {package.datetime_delivered}')
@@ -111,9 +119,9 @@ class Truck:
 
         return time_elapsed
 
-    
     # Function that returns all the package and details at the given time
     # O(n)
+
     def get_all_packages_status_at_time(self, datetime_input):
         container = self.container
 

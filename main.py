@@ -1,3 +1,10 @@
+# -- INFO ---------------
+# First Name: Joshua
+# Last Name: Corpuz
+# Student id#: 001196484
+# -- INFO ---------------
+
+
 from collections import UserList
 import csv
 import datetime
@@ -16,7 +23,7 @@ def exit_program():
 
 def wgups_routing_program():
     packages_delivered = False
-    
+
     print("""
     *****************************************
     * Welcome to the WGUPS Routing Program! *
@@ -99,7 +106,7 @@ def wgups_routing_program():
 
     # store trucks in a list
     trucks = [truck1, truck2, truck3]
-    
+
     print("""
     ************************************************************
     * Package data loaded!                                     *
@@ -122,14 +129,20 @@ def wgups_routing_program():
         *                                                                       *
         *************************************************************************
         """)
-        user_input_2 = input("Enter the package id # for the package that you would like to view: ")
+        user_input_2 = input(
+            "Enter the package id # for the package that you would like to view: ")
 
-        package_result = package_list.search(user_input_2)
+        try:
+            package_result = package_list.search(user_input_2)
 
-        print(f""" 
-        Package Details: {package_result}
-        """)
-
+        except:
+            print("""
+            PACKAGE WITH THE PROVIDED ID DOES NOT EXIST!!
+            """)
+        else:
+            print(f"""Package Details: 
+            {package_result}
+            """)
 
         print("""
         ****************************************************
@@ -143,7 +156,6 @@ def wgups_routing_program():
         print("Press: 0 - to exit program")
         user_input = input("Input: ")
 
-
     if user_input == "1":
         print('\n')
         print("""
@@ -154,8 +166,6 @@ def wgups_routing_program():
         user_input = input("Input: ")
 
         if user_input == "1":
-
-           
 
             # pass the list of trucks as a parameter to create a loading process object
             loading_process = LoadingProcess(trucks)
@@ -201,11 +211,13 @@ def wgups_routing_program():
 
                     print('\n')
                     truck1.deliver_packages()
+                    print('\n')
                     truck3.deliver_packages()
 
                     print('\n')
                     print("""
-                    -- Corrected address for package 9 has been received at 10:20 AM! ---
+                    --- Corrected address for package 9 was received at 10:20 AM! ---
+
                     --- Would you like to correct the address for package 9? ---
                     """)
 
@@ -272,6 +284,7 @@ def wgups_routing_program():
                             user_input = input("Input: ")
 
                             if user_input == '1':
+                                print('\n')
                                 truck2.start_time = truck1.end_time
                                 truck2.deliver_packages()
 
@@ -455,7 +468,6 @@ def wgups_routing_program():
                 SystemExit
         else:
             exit_program()
-    
 
     else:
         exit_program()

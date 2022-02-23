@@ -1,3 +1,9 @@
+# -- INFO ---------------
+# First Name: Joshua
+# Last Name: Corpuz
+# Student id#: 001196484
+# -- INFO ---------------
+
 from pickle import TRUE
 from package import Package
 from truck import Truck
