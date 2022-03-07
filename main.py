@@ -212,6 +212,7 @@ def wgups_routing_program():
                     print('\n')
                     truck1.deliver_packages()
                     print('\n')
+                    truck3.start_time = truck1.end_time
                     truck3.deliver_packages()
 
                     print('\n')
@@ -285,7 +286,8 @@ def wgups_routing_program():
 
                             if user_input == '1':
                                 print('\n')
-                                truck2.start_time = truck1.end_time
+                                truck2.start_time = datetime.datetime(
+                                    2022, 2, 21, hour=9, minute=5, second=0)
                                 truck2.deliver_packages()
 
                                 print("""
@@ -441,7 +443,6 @@ def wgups_routing_program():
 
                     print('\n')
                     print('Truck 2 Summary:')
-                    truck2.start_time = truck1.end_time
                     print('Start:', truck2.start_time)
                     print('End:', truck2.end_time)
                     print("Truck 3 travelled:", truck3.miles_traveled, "miles")
